@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../solicitacao NF"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Teste"
+	}
+}

@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/logo Showmais (roxo).png" type="image/png">
+        <link rel="stylesheet" href="style-orcamento.css" type="text/css">
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <title>Pagina Inicial</title>
+    </head>
+
+    <body>
+        <button id="logout">
+            <a href="/logout"><text>logout</text></a>
+        </button>
+        <button id="logout">
+            <a href="/paginaInicial"><text>Pagina Inicial</text></a>
+        </button>
+        <h1 id="titulo-pagina"><strong>Dados para Orçamento</strong></h1>
+        <form id="emailForm" action="/send-email" method="POST" enctype="multipart/form-data">
+
+            <div class="anexos">
+                <div class="email-para">
+                    <div class="attachment">
+                        <label for="attachment">Anexo:</label>
+                        <input type="file" id="attachment" name="attachment" multiple />
+                    </div>
+
+                    <div class="para">
+                        <label for="to">Para:</label>
+                        <select id="to" name="to" required>
+                            <option value="orcamento@showmais.com">Orçamento (Vera)</option>
+                        </select>
+                    </div>
+                    <button type="submit">Enviar</button>
+                </div>
+                <div class="arquivo-links">
+                    <label for="arquivolinks">Links para Download:</label>
+                    <textarea name="arquivolinks" id="arquivo-links" rows="2" wrap="hard"></textarea>
+                </div>
+
+            </div>
+
+            <!---fomulario 1-->
+            <div class="formularios">
+                <div class="formulario" id="formulario1">
+                    <div class="habilitar-form">
+                        <h1>Arquivo 1</h1>
+                    </div>
+                    <div class="Form" id="form1" style="display: none">
+                        <div class="estilo-botao">
+                            <label for="cliente">Cliente (cód):</label><br>
+                            <textarea id="cliente" name="cliente" rows="2" wrap="hard"
+                                placeholder="Insira o código do cliente" required></textarea><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="ideia-produto">Ideia do produto:</label>
+                            <input type="text" name="ideiaproduto" id="ideia-produto"
+                                placeholder="Descreva o material a ser produzido"><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="tipoimpressao">Tipo de impressão:</label>
+                            <select name="tipoimpressao" id="tipo-impressao">
+                                <option value="Impressão Latex">Impressão Latex </option>
+                                <option value="Impressão em Lona">Impressão Lona</option>
+                                <option value="Impressão UV">Impressão UV</option>
+                            </select><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-entrega">Data de entrega:</label>
+                            <input type="date" id="dataEntrega" name="dataEntrega" class="dataFinal"
+                                pattern="DD-MM-YYYY" required /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-final">Data de finalização:</label>
+                            <input type="date" id="dataFinal" name="dataFinal" class="dataFinal1"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="dimensions">Dimensão Final (L x A):</label>
+                            <input type="text" class="dimensions" id="dimensions" name="dimensions"
+                                placeholder="0,00 x 0,00m" maxlength="15" value="00,00 x 00,00m" required /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="sangra">Sangra (L x A):</label>
+                            <input type="text" id="sangra" name="sangra" placeholder="0,0 x 0,0mm" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="material">Material:</label>
+                            <input type="text" id="material" name="material"
+                                placeholder="PVC, PS, Adesivo, Lona, etc..." required /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="quantity">Quantidade:</label>
+                            <input type="number" id="quantity" name="quantity" placeholder="Insira a quantidade em un."
+                                required /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Impressão:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="normalPrint" name="printType" value="Normal" checked />
+                                    <label for="normalPrint" class="label-radio">Normal</label><br />
+                                </div>
+
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="invertedPrint" name="printType" value="Invertida" />
+                                    <label for="invertedPrint" class="label-radio">Invertida</label><br /><br />
+                                </div>
+                            </div><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="cores">Cores:</label>
+                            <select id="cores" name="cores">
+                                <option value="4x0 (CMYK)">4x0 (CMYK)</option>
+                                <option value="5x0 (CMYK+W)">5x0 (CMYK+W)</option>
+                                <option value="1x0">1x0</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Calço:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="noWhite" name="calco" value="Sem" checked />
+                                    <label for="noWhite">Sem</label><br />
+                                </div>
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="spotWhite" name="calco" value="Localizado" />
+                                    <label for="spotWhite">Localizado</label><br /><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="fullWhite" name="calco" value="Branco Total" />
+                                    <label for="fullWhite">Branco Total</label><br />
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="estilo-botao">
+                            <label for="cut">Corte:</label>
+                            <select id="cut" name="cut">
+                                <option value="Sem corte">Sem corte</option>
+                                <option value="Especial">Especial</option>
+                                <option value="Meio corte">Meio corte</option>
+                                <option value="Reto">Reto</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="acabamentoset">Acabamento: <br>(setor)</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semAcabamento" name="acabamentoset" value="Sem Acabamento"
+                                        checked />
+                                    <label for="semAcabamento">Sem<br>acabamento</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="flexibleFinish" name="acabamentoset" value="Flexível" />
+                                    <label for="flexibleFinish">Flexível</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="rigidFinish" name="acabamentoset" value="Rígido" />
+                                    <label for="rigidFinish">Rígido</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="installationFinish" name="acabamentoset"
+                                        value="Instalação" />
+                                    <label for="installationFinish">Instalação</label><br /><br />
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="acabamento">Acabamento: <br>(material) </label>
+                            <select name="acabamento" id="acabamento">
+                                <option value="Sem">Sem</option>
+                                <option value="Banner">Banner</option>
+                                <option value="Backdrop (grampeado)">Backdrop (grampeado)</option>
+                                <option value="Backdrop (dupla face)">Backdrop (dupla face)</option>
+                                <option value="Dobra">Dobra</option>
+                                <option value="Dupla Face">Dupla Face</option>
+                                <option value="Ilhós">Ilhós</option>
+                                <option value="Solda">Solda</option>
+                            </select><br>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="lamination">Laminação:</label>
+                            <select id="lamination" name="lamination">
+                                <option value="Sem">Sem</option>
+                                <option value="transp-briho">Adesivo Tranparente brilho</option>
+                                <option value="transp-fosco">Adesivo Transparente fosco</option>
+                                <option value="jateado">Adesivo Jateado</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="mascara">Máscara:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semMascara" name="mascara" value="Sem Máscara" checked />
+                                    <label for="semMascara">Sem máscara</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraTransparente" name="mascara" value="Transparente" />
+                                    <label for="mascaraTransparente">Máscara transparente</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraPapel" name="mascara" value="Papel" />
+                                    <label for="mascaraPapel">Máscara de papel</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="solda">Solda:</label>
+                            <select name="solda" id="solda">
+                                <option value="Sem">Sem</option>
+                                <option value="Bainha simples">Bainha simples</option>
+                                <option value="Bainha dupla">Bainha dupla</option>
+                                <option value="Bainha tripla">Bainha tripla</option>
+                                <option value="Bainha tripla + cordinha">
+                                    Bainha tripla + cordinha
+                                </option>
+                                <option value="Radiofrequencia">Radiofrequência (banner)</option>
+                                <option value="solda fria">Solda fria</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="terceiroServico">Prestação de Serviço: <br>(grau de dificuldade) </label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semServico" name="terceiroServico" value="Sem Terceiro"
+                                        checked />
+                                    <label for="semServico">Sem terceiro</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="facil" name="terceiroServico" value="Fácil" />
+                                    <label for="facil">Fácil</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="medio" name="terceiroServico" value="Médio" />
+                                    <label for="medio">Médio</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="dificil" name="terceiroServico" value="Difícil" />
+                                    <label for="dificil">Difícil</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="embalagem">Embalagem:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semEmbalagem" name="embalagem" value="Sem Embalagem"
+                                        checked />
+                                    <label for="semEmbalagem">Sem Embalagem</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="simples" name="embalagem" value="Simples" />
+                                    <label for="simples">Simples</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="reforcada" name="embalagem" value="Reforçada" />
+                                    <label for="reforcada">Reforçada</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="frete">Frete:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="FOB" name="frete" value="FOB" checked />
+                                    <label for="FOB">FOB</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifDK" name="frete" value="CIF(Disk&Tenha)" />
+                                    <label for="cifDK">CIF<br>(Disk&Tenha)</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifTP" name="frete" value="CIF(Transportadora)" />
+                                    <label for="cifTP">CIF<br>(Transportadora)</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label>Inf. Adicionais:</label><br />
+                            <textarea id="additionalInfo" name="additionalInfo" rows="3"></textarea><br /><br />
+                        </div>
+                    </div>
+                </div>
+                <!---formulario 1 /////-->
+                <div class="formulario" id="formulario1">
+                    <div class="habilitar-form">
+                        <h1>Arquivo 2</h1>
+                    </div>
+                    <div class="Form" id="form1" style="display: none">
+
+                        <div class="estilo-botao" id="div-escondida">
+                            <label for="div-escondida">.</label>
+                            <textarea name="div-escondida" rows="2" wrap="hard"></textarea><br><br>
+                        </div>
+                        <div class="estilo-botao">
+                            <label for="ideia-produto1">Ideia do produto:</label>
+                            <input type="text" name="ideiaproduto1" id="ideia-produto1"
+                                placeholder="Descreva o material a ser produzido"><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="tipoimpressao1">Tipo de impressão:</label>
+                            <select name="tipoimpressao1" id="tipo-impressao1">
+                                <option value="Impressão Latex">Impressão Latex </option>
+                                <option value="Impressão em Lona">Impressão Lona</option>
+                                <option value="Impressão UV">Impressão UV</option>
+                            </select><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-entrega1">Data de entrega:</label>
+                            <input type="date" id="dataEntrega1" name="dataEntrega1" class="dataFinal1"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-final1">Data de finalização:</label>
+                            <input type="date" id="dataFinal1" name="dataFinal1" class="dataFinal1"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="dimensions1">Dimensão Final (L x A):</label>
+                            <input type="text" class="dimensions" id="dimensions1" name="dimensions1"
+                                placeholder="0,00 x 0,00m" maxlength="15" value="00,00 x 00,00m" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="sangra1">Sangra (L x A):</label>
+                            <input type="text" id="sangra1" name="sangra1" placeholder="0,0 x 0,0mm" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="material1">Material:</label>
+                            <input type="text" id="material1" name="material1"
+                                placeholder="PVC, PS, Adesivo, Lona, etc..." /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="quantity1">Quantidade:</label>
+                            <input type="number" id="quantity1" name="quantity1"
+                                placeholder="Insira a quantidade em un." /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Impressão:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="normalPrint1" name="printType1" value="Normal" />
+                                    <label for="normalPrint1" class="label-radio">Normal</label><br />
+                                </div>
+
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="invertedPrint1" name="printType1" value="Invertida" />
+                                    <label for="invertedPrint1" class="label-radio">Invertida</label><br /><br />
+                                </div>
+                            </div><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="cores1">Cores:</label>
+                            <select id="cores1" name="cores1">
+                                <option value="4x0 (CMYK)">4x0 (CMYK)</option>
+                                <option value="5x0 (CMYK+W)">5x0 (CMYK+W)</option>
+                                <option value="1x0">1x0</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Calço:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="noWhite1" name="calco1" value="Sem" />
+                                    <label for="noWhite1">Sem</label><br />
+                                </div>
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="spotWhite1" name="calco1" value="Localizado" />
+                                    <label for="spotWhite1">Localizado</label><br /><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="fullWhite1" name="calco1" value="Branco Total" />
+                                    <label for="fullWhite1">Branco Total</label><br />
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="estilo-botao">
+                            <label for="cut1">Corte:</label>
+                            <select id="cut1" name="cut1">
+                                <option value="Sem corte">Sem corte</option>
+                                <option value="Especial">Especial</option>
+                                <option value="Meio corte">Meio corte</option>
+                                <option value="Reto">Reto</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="acabamentoset1">Acabamento: <br>(setor)</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semAcabamento1" name="acabamentoset1" value="Sem Acabamento"
+                                        checked />
+                                    <label for="semAcabamento1">Sem acabamento</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="flexibleFinish1" name="acabamentoset1" value="Flexível" />
+                                    <label for="flexibleFinish1">Flexível</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="rigidFinish1" name="acabamentoset1" value="Rígido" />
+                                    <label for="rigidFinish1">Rígido</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="installationFinish1" name="acabamentoset1"
+                                        value="Instalação" />
+                                    <label for="installationFinish1">Instalação</label><br /><br />
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="acabamento1">Acabamento: <br>(material) </label>
+                            <select name="acabamento1" id="acabamento1">
+                                <option value="Sem">Sem</option>
+                                <option value="Banner">Banner</option>
+                                <option value="Backdrop (grampeado)">Backdrop (grampeado)</option>
+                                <option value="Backdrop (dupla face)">Backdrop (dupla face)</option>
+                                <option value="Dobra">Dobra</option>
+                                <option value="Dupla Face">Dupla Face</option>
+                                <option value="Ilhós">Ilhós</option>
+                                <option value="Solda">Solda</option>
+                            </select><br>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="lamination1">Laminação:</label>
+                            <select id="lamination1" name="lamination1">
+                                <option value="Sem">Sem</option>
+                                <option value="transp-briho">Adesivo Tranparente brilho</option>
+                                <option value="transp-fosco">Adesivo Transparente fosco</option>
+                                <option value="jateado">Adesivo Jateado</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="mascara1">Máscara:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semMascara1" name="mascara1" value="Sem Máscara" />
+                                    <label for="semMascara1">Sem máscara</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraTransparente1" name="mascara1"
+                                        value="Transparente" />
+                                    <label for="mascaraTransparente1">Máscara transparente</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraPapel1" name="mascara1" value="Papel" />
+                                    <label for="mascaraPapel1">Máscara de papel</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="solda1">Solda:</label>
+                            <select name="solda1" id="solda1">
+                                <option value="Sem">Sem</option>
+                                <option value="Bainha simples">Bainha simples</option>
+                                <option value="Bainha dupla">Bainha dupla</option>
+                                <option value="Bainha tripla">Bainha tripla</option>
+                                <option value="Bainha tripla + cordinha">
+                                    Bainha tripla + cordinha
+                                </option>
+                                <option value="Radiofrequencia">Radiofrequência (banner)</option>
+                                <option value="solda fria">Solda fria</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="terceiroServico1">Prestação de Serviço: <br>(grau de dificuldade)
+                            </label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semServico1" name="terceiroServico1" value="Sem Terceiro"
+                                        checked />
+                                    <label for="semServico1">Sem terceiro</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="facil1" name="terceiroServico1" value="Fácil" />
+                                    <label for="facil1">Fácil</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="medio1" name="terceiroServico1" value="Médio" />
+                                    <label for="medio1">Médio</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="dificil1" name="terceiroServico1" value="Difícil" />
+                                    <label for="dificil1">Difícil</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="embalagem1">Embalagem:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semEmbalagem1" name="embalagem1" value="Sem Embalagem"
+                                        checked />
+                                    <label for="semEmbalagem1">Sem Embalagem</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="simples1" name="embalagem1" value="Simples" />
+                                    <label for="simples1">Simples</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="reforcada1" name="embalagem1" value="Reforçada" />
+                                    <label for="reforcada1">Reforçada</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="frete1">Frete:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="FOB" name="frete1" value="FOB" checked />
+                                    <label for="FOB">FOB</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifDK1" name="frete1" value="CIF(Disk&Tenha)" />
+                                    <label for="cifDK1">CIF<br>(Disk&Tenha)</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifTP1" name="frete1" value="CIF(Transportadora)" />
+                                    <label for="cifTP1">CIF<br>(Transportadora)</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label>Inf. Adicionais:</label><br />
+                            <textarea id="additionalInfo" name="additionalInfo1" rows="3"></textarea><br /><br />
+                        </div>
+                    </div>
+
+                </div>
+
+                <!---formulario 3 /////-->
+                <div class="formulario" id="formulario2">
+                    <div class="habilitar-form">
+                        <h1>Arquivo 3</h1>
+                    </div>
+                    <div class="Form" id="form2" style="display: none">
+
+                        <div class="estilo-botao" id="div-escondida">
+                            <label for="div-escondida">.</label>
+                            <textarea name="div-escondida" rows="2" wrap="hard"></textarea><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="ideia-produto2">Ideia do produto:</label>
+                            <input type="text" name="ideiaproduto2" id="ideia-produto2"
+                                placeholder="Descreva o material a ser produzido"><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="tipoimpressao2">Tipo de impressão:</label>
+                            <select name="tipoimpressao2" id="tipo-impressao2">
+                                <option value="Impressão Latex">Impressão Latex </option>
+                                <option value="Impressão em Lona">Impressão Lona</option>
+                                <option value="Impressão UV">Impressão UV</option>
+                            </select><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-entrega2">Data de finalização:</label>
+                            <input type="date" id="dataEntrega2" name="dataEntrega2" class="dataFinal2"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-final2">Data de finalização:</label>
+                            <input type="date" id="dataFinal2" name="dataFinal2" class="dataFinal2"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="dimensions2">Dimensão Final (L x A):</label>
+                            <input type="text" class="dimensions" id="dimensions2" name="dimensions2"
+                                placeholder="0,00 x 0,00m" maxlength="15" value="00,00 x 00,00m" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="sangra2">Sangra (L x A):</label>
+                            <input type="text" id="sangra2" name="sangra2" placeholder="0,0 x 0,0mm" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="material2">Material:</label>
+                            <input type="text" id="material2" name="material2"
+                                placeholder="PVC, PS, Adesivo, Lona, etc..." /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="quantity2">Quantidade:</label>
+                            <input type="number" id="quantity2" name="quantity2"
+                                placeholder="Insira a quantidade em un." /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Impressão:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="normalPrint2" name="printType2" value="Normal" />
+                                    <label for="normalPrint2" class="label-radio">Normal</label><br />
+                                </div>
+
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="invertedPrint2" name="printType2" value="Invertida" />
+                                    <label for="invertedPrint2" class="label-radio">Invertida</label><br /><br />
+                                </div>
+                            </div><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="cores2">Cores:</label>
+                            <select id="cores2" name="cores2">
+                                <option value="4x0 (CMYK)">4x0 (CMYK)</option>
+                                <option value="5x0 (CMYK+W)">5x0 (CMYK+W)</option>
+                                <option value="1x0">1x0</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Calço:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="noWhite2" name="calco2" value="Sem" />
+                                    <label for="noWhite2">Sem</label><br />
+                                </div>
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="spotWhite2" name="calco2" value="Localizado" />
+                                    <label for="spotWhite2">Localizado</label><br /><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="fullWhite2" name="calco2" value="Branco Total" />
+                                    <label for="fullWhite2">Branco Total</label><br />
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="estilo-botao">
+                            <label for="cut2">Corte:</label>
+                            <select id="cut2" name="cut2">
+                                <option value="Sem corte">Sem corte</option>
+                                <option value="Especial">Especial</option>
+                                <option value="Meio corte">Meio corte</option>
+                                <option value="Reto">Reto</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="acabamentoset2">Acabamento: <br>(setor)</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semAcabamento2" name="acabamentoset2" value="Sem Acabamento"
+                                        checked />
+                                    <label for="semAcabamento2">Sem acabamento</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="flexibleFinish2" name="acabamentoset2" value="Flexível" />
+                                    <label for="flexibleFinish2">Flexível</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="rigidFinish2" name="acabamentoset2" value="Rígido" />
+                                    <label for="rigidFinish2">Rígido</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="installationFinish2" name="acabamentoset2"
+                                        value="Instalação" />
+                                    <label for="installationFinish2">Instalação</label><br /><br />
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="acabamento2">Acabamento: <br>(material) </label>
+                            <select name="acabamento2" id="acabamento2">
+                                <option value="Sem">Sem</option>
+                                <option value="Banner">Banner</option>
+                                <option value="Backdrop (grampeado)">Backdrop (grampeado)</option>
+                                <option value="Backdrop (dupla face)">Backdrop (dupla face)</option>
+                                <option value="Dobra">Dobra</option>
+                                <option value="Dupla Face">Dupla Face</option>
+                                <option value="Ilhós">Ilhós</option>
+                                <option value="Solda">Solda</option>
+                            </select><br>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="lamination2">Laminação:</label>
+                            <select id="lamination2" name="lamination2">
+                                <option value="Sem">Sem</option>
+                                <option value="transp-briho">Adesivo Tranparente brilho</option>
+                                <option value="transp-fosco">Adesivo Transparente fosco</option>
+                                <option value="jateado">Adesivo Jateado</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="mascara2">Máscara:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semMascara2" name="mascara2" value="Sem Máscara" />
+                                    <label for="semMascara2">Sem máscara</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraTransparente2" name="mascara2"
+                                        value="Transparente" />
+                                    <label for="mascaraTransparente2">Máscara transparente</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraPapel2" name="mascara2" value="Papel" />
+                                    <label for="mascaraPapel2">Máscara de papel</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="solda2">Solda:</label>
+                            <select name="solda2" id="solda2">
+                                <option value="Sem">Sem</option>
+                                <option value="Bainha simples">Bainha simples</option>
+                                <option value="Bainha dupla">Bainha dupla</option>
+                                <option value="Bainha tripla">Bainha tripla</option>
+                                <option value="Bainha tripla + cordinha">
+                                    Bainha tripla + cordinha
+                                </option>
+                                <option value="Radiofrequencia">Radiofrequência (banner)</option>
+                                <option value="solda fria">Solda fria</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="terceiroServico">Prestação de Serviço: <br>(grau de dificuldade)
+                            </label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semServico2" name="terceiroServico2" value="Sem Terceiro"
+                                        checked />
+                                    <label for="semServico2">Sem terceiro</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="facil2" name="terceiroServico2" value="Fácil" />
+                                    <label for="facil2">Fácil</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="medio2" name="terceiroServico2" value="Médio" />
+                                    <label for="medio2">Médio</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="dificil2" name="terceiroServico2" value="Difícil" />
+                                    <label for="dificil2">Difícil</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="embalagem2">Embalagem:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semEmbalagem2" name="embalagem2" value="Sem Embalagem"
+                                        checked />
+                                    <label for="semEmbalagem2">Sem Embalagem</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="simples2" name="embalagem2" value="Simples" />
+                                    <label for="simples2">Simples</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="reforcada2" name="embalagem2" value="Reforçada" />
+                                    <label for="reforcada2">Reforçada</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="frete2">Frete:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="FOB2" name="frete2" value="FOB" checked />
+                                    <label for="FOB2">FOB</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifDK2" name="frete2" value="CIF(Disk&Tenha)" />
+                                    <label for="cifDK2">CIF<br>(Disk&Tenha)</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifTP2" name="frete2" value="CIF(Transportadora)" />
+                                    <label for="cifTP2">CIF<br>(Transportadora)</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label>Inf. Adicionais:</label><br />
+                            <textarea id="additionalInfo" name="additionalInfo2" rows="3"></textarea><br /><br />
+                        </div>
+                    </div>
+
+                </div>
+
+                <!---formulario 4 /////-->
+                <div class="formulario" id="formulario3">
+                    <div class="habilitar-form">
+                        <h1>Arquivo 4</h1>
+                    </div>
+                    <div class="Form" id="form3" style="display: none">
+
+                        <div class="estilo-botao">
+                            <label for="ideia-produto3">Ideia do produto:</label>
+                            <input type="text" name="ideiaproduto3" id="ideia-produto3"
+                                placeholder="Descreva o material a ser produzido"><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="tipoimpressao3">Tipo de impressão:</label>
+                            <select name="tipoimpressao3" id="tipo-impressao3">
+                                <option value="Impressão Latex">Impressão Latex </option>
+                                <option value="Impressão em Lona">Impressão Lona</option>
+                                <option value="Impressão UV">Impressão UV</option>
+                            </select><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-entrega3">Data de finalização:</label>
+                            <input type="date" id="dataEntrega3" name="dataEntrega3" class="dataFinal3"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-final3">Data de finalização:</label>
+                            <input type="date" id="dataFinal3" name="dataFinal3" class="dataFinal3"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="dimensions3">Dimensão Final (L x A):</label>
+                            <input type="text" class="dimensions" id="dimensions3" name="dimensions3"
+                                placeholder="0,00 x 0,00m" maxlength="15" value="00,00 x 00,00m" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="sangra3">Sangra (L x A):</label>
+                            <input type="text" id="sangra3" name="sangra3" placeholder="0,0 x 0,0mm" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="material3">Material:</label>
+                            <input type="text" id="material3" name="material3"
+                                placeholder="PVC, PS, Adesivo, Lona, etc..." /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="quantity3">Quantidade:</label>
+                            <input type="number" id="quantity3" name="quantity3"
+                                placeholder="Insira a quantidade em un." /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Impressão:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="normalPrint3" name="printType3" value="Normal" />
+                                    <label for="normalPrint3" class="label-radio">Normal</label><br />
+                                </div>
+
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="invertedPrint3" name="printType3" value="Invertida" />
+                                    <label for="invertedPrint3" class="label-radio">Invertida</label><br /><br />
+                                </div>
+                            </div><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="cores3">Cores:</label>
+                            <select id="cores3" name="cores3">
+                                <option value="4x0 (CMYK)">4x0 (CMYK)</option>
+                                <option value="5x0 (CMYK+W)">5x0 (CMYK+W)</option>
+                                <option value="1x0">1x0</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Calço:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="noWhite3" name="calco3" value="Sem" />
+                                    <label for="noWhite3">Sem</label><br />
+                                </div>
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="spotWhite3" name="calco3" value="Localizado" />
+                                    <label for="spotWhite3">Localizado</label><br /><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="fullWhite3" name="calco3" value="Branco Total" />
+                                    <label for="fullWhite3">Branco Total</label><br />
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="estilo-botao">
+                            <label for="cut3">Corte:</label>
+                            <select id="cut3" name="cut3">
+                                <option value="Sem corte">Sem corte</option>
+                                <option value="Especial">Especial</option>
+                                <option value="Meio corte">Meio corte</option>
+                                <option value="Reto">Reto</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="acabamentoset3">Acabamento: <br>(setor)</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semAcabamento3" name="acabamentoset3" value="Sem Acabamento"
+                                        checked />
+                                    <label for="semAcabamento3">Sem acabamento</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="flexibleFinish3" name="acabamentoset3" value="Flexível" />
+                                    <label for="flexibleFinish3">Flexível</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="rigidFinish3" name="acabamentoset3" value="Rígido" />
+                                    <label for="rigidFinish3">Rígido</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="installationFinish3" name="acabamentoset3"
+                                        value="Instalação" />
+                                    <label for="installationFinish3">Instalação</label><br /><br />
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="acabamento3">Acabamento: <br>(material) </label>
+                            <select name="acabamento3" id="acabamento3">
+                                <option value="Sem">Sem</option>
+                                <option value="Banner">Banner</option>
+                                <option value="Backdrop (grampeado)">Backdrop (grampeado)</option>
+                                <option value="Backdrop (dupla face)">Backdrop (dupla face)</option>
+                                <option value="Dobra">Dobra</option>
+                                <option value="Dupla Face">Dupla Face</option>
+                                <option value="Ilhós">Ilhós</option>
+                                <option value="Solda">Solda</option>
+                            </select><br>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="lamination3">Laminação:</label>
+                            <select id="lamination3" name="lamination3">
+                                <option value="Sem">Sem</option>
+                                <option value="transp-briho">Adesivo Tranparente brilho</option>
+                                <option value="transp-fosco">Adesivo Transparente fosco</option>
+                                <option value="jateado">Adesivo Jateado</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="mascara3">Máscara:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semMascara3" name="mascara3" value="Sem Máscara" />
+                                    <label for="semMascara3">Sem máscara</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraTransparente3" name="mascara3"
+                                        value="Transparente" />
+                                    <label for="mascaraTransparente3">Máscara transparente</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraPapel3" name="mascara3" value="Papel" />
+                                    <label for="mascaraPapel3">Máscara de papel</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="solda3">Solda:</label>
+                            <select name="solda3" id="solda3">
+                                <option value="Sem">Sem</option>
+                                <option value="Bainha simples">Bainha simples</option>
+                                <option value="Bainha dupla">Bainha dupla</option>
+                                <option value="Bainha tripla">Bainha tripla</option>
+                                <option value="Bainha tripla + cordinha">
+                                    Bainha tripla + cordinha
+                                </option>
+                                <option value="Radiofrequencia">Radiofrequência (banner)</option>
+                                <option value="solda fria">Solda fria</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="terceiroServico3">Prestação de Serviço: <br>(grau de dificuldade)
+                            </label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semServico3" name="terceiroServico3" value="Sem Terceiro"
+                                        checked />
+                                    <label for="semServico3">Sem terceiro</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="facil3" name="terceiroServico3" value="Fácil" />
+                                    <label for="facil3">Fácil</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="medio3" name="terceiroServico3" value="Médio" />
+                                    <label for="medio3">Médio</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="dificil3" name="terceiroServico3" value="Difícil" />
+                                    <label for="dificil3">Difícil</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="embalagem3">Embalagem:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semEmbalagem3" name="embalagem3" value="Sem Embalagem"
+                                        checked />
+                                    <label for="semEmbalagem3">Sem Embalagem</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="simples3" name="embalagem3" value="Simples" />
+                                    <label for="simples3">Simples</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="reforcada3" name="embalagem3" value="Reforçada" />
+                                    <label for="reforcada3">Reforçada</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="frete">Frete:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="FOB3" name="frete3" value="FOB" checked />
+                                    <label for="FOB3">FOB</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifDK3" name="frete3" value="CIF(Disk&Tenha)" />
+                                    <label for="cifDK3">CIF<br>(Disk&Tenha)</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifTP3" name="frete3" value="CIF(Transportadora)" />
+                                    <label for="cifTP3">CIF<br>(Transportadora)</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label>Inf. Adicionais:</label><br />
+                            <textarea id="additionalInfo" name="additionalInfo3" rows="3"></textarea><br /><br />
+                        </div>
+                    </div>
+
+                </div>
+
+                <!---formulario 5 /////-->
+                <div class="formulario" id="formulario4">
+                    <div class="habilitar-form">
+                        <h1>Arquivo 5</h1>
+                    </div>
+                    <div class="Form" id="form4" style="display: none">
+
+                        <div class="estilo-botao">
+                            <label for="ideia-produto4">Ideia do produto:</label>
+                            <input type="text" name="ideiaproduto4" id="ideia-produto4"
+                                placeholder="Descreva o material a ser produzido"><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="tipoimpressao4">Tipo de impressão:</label>
+                            <select name="tipoimpressao4" id="tipo-impressao4">
+                                <option value="Impressão Latex">Impressão Latex </option>
+                                <option value="Impressão em Lona">Impressão Lona</option>
+                                <option value="Impressão UV">Impressão UV</option>
+                            </select><br><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-entrega4">Data de finalização:</label>
+                            <input type="date" id="dataEntrega4" name="dataEntrega4" class="dataFinal4"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="data-final4">Data de finalização:</label>
+                            <input type="date" id="dataFinal4" name="dataFinal4" class="dataFinal4"
+                                pattern="DD-MM-YYYY" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="dimensions4">Dimensão Final (L x A):</label>
+                            <input type="text" class="dimensions" id="dimensions4" name="dimensions4"
+                                placeholder="0,00 x 0,00m" maxlength="15" value="00,00 x 00,00m" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="sangra4">Sangra (L x A):</label>
+                            <input type="text" id="sangra4" name="sangra4" placeholder="0,0 x 0,0mm" /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="material4">Material:</label>
+                            <input type="text" id="material4" name="material4"
+                                placeholder="PVC, PS, Adesivo, Lona, etc..." /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="quantity4">Quantidade:</label>
+                            <input type="number" id="quantity4" name="quantity4"
+                                placeholder="Insira a quantidade em un." /><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Impressão:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="normalPrint4" name="printType4" value="Normal" />
+                                    <label for="normalPrint4" class="label-radio">Normal</label><br />
+                                </div>
+
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="invertedPrint4" name="printType4" value="Invertida" />
+                                    <label for="invertedPrint4" class="label-radio">Invertida</label><br /><br />
+                                </div>
+                            </div><br>
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="cores4">Cores:</label>
+                            <select id="cores4" name="cores4">
+                                <option value="4x0 (CMYK)">4x0 (CMYK)</option>
+                                <option value="5x0 (CMYK+W)">5x0 (CMYK+W)</option>
+                                <option value="1x0">1x0</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label>Calço:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="noWhite4" name="calco4" value="Sem" />
+                                    <label for="noWhite4">Sem</label><br />
+                                </div>
+                                <div class="radio-ultimo">
+                                    <input type="radio" id="spotWhite4" name="calco4" value="Localizado" />
+                                    <label for="spotWhite4">Localizado</label><br /><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="fullWhite4" name="calco4" value="Branco Total" />
+                                    <label for="fullWhite4">Branco Total</label><br />
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="estilo-botao">
+                            <label for="cut4">Corte:</label>
+                            <select id="cut4" name="cut4">
+                                <option value="Sem corte">Sem corte</option>
+                                <option value="Especial">Especial</option>
+                                <option value="Meio corte">Meio corte</option>
+                                <option value="Reto">Reto</option>
+                            </select><br /><br />
+                        </div>
+
+                        <div class="estilo-botao">
+                            <label for="acabamentoset4">Acabamento: <br>(setor)</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semAcabamento4" name="acabamentoset4" value="Sem Acabamento"
+                                        checked />
+                                    <label for="semAcabamento4">Sem acabamento</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="flexibleFinish4" name="acabamentoset4" value="Flexível" />
+                                    <label for="flexibleFinish4">Flexível</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="rigidFinish4" name="acabamentoset4" value="Rígido" />
+                                    <label for="rigidFinish4">Rígido</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="installationFinish4" name="acabamentoset4"
+                                        value="Instalação" />
+                                    <label for="installationFinish4">Instalação</label><br /><br />
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="acabamento4">Acabamento: <br>(material) </label>
+                            <select name="acabamento4" id="acabamento4">
+                                <option value="Sem">Sem</option>
+                                <option value="Banner">Banner</option>
+                                <option value="Backdrop (grampeado)">Backdrop (grampeado)</option>
+                                <option value="Backdrop (dupla face)">Backdrop (dupla face)</option>
+                                <option value="Dobra">Dobra</option>
+                                <option value="Dupla Face">Dupla Face</option>
+                                <option value="Ilhós">Ilhós</option>
+                                <option value="Solda">Solda</option>
+                            </select><br>
+                        </div><br>
+
+                        <div class="estilo-botao">
+                            <label for="lamination4">Laminação:</label>
+                            <select id="lamination4" name="lamination4">
+                                <option value="Sem">Sem</option>
+                                <option value="transp-briho">Adesivo Tranparente brilho</option>
+                                <option value="transp-fosco">Adesivo Transparente fosco</option>
+                                <option value="jateado">Adesivo Jateado</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="mascara4">Máscara:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semMascara4" name="mascara4" value="Sem Máscara" />
+                                    <label for="semMascara4">Sem máscara</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraTransparente4" name="mascara4"
+                                        value="Transparente" />
+                                    <label for="mascaraTransparente4">Máscara transparente</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="mascaraPapel4" name="mascara4" value="Papel" />
+                                    <label for="mascaraPapel4">Máscara de papel</label>
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="solda4">Solda:</label>
+                            <select name="solda4" id="solda4">
+                                <option value="Sem">Sem</option>
+                                <option value="Bainha simples">Bainha simples</option>
+                                <option value="Bainha dupla">Bainha dupla</option>
+                                <option value="Bainha tripla">Bainha tripla</option>
+                                <option value="Bainha tripla + cordinha">
+                                    Bainha tripla + cordinha
+                                </option>
+                                <option value="Radiofrequencia">Radiofrequência (banner)</option>
+                                <option value="solda fria">Solda fria</option>
+                            </select><br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="terceiroServico4">Prestação de Serviço: <br>(grau de dificuldade)
+                            </label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semServico4" name="terceiroServico4" value="Sem Terceiro"
+                                        checked />
+                                    <label for="semServico4">Sem terceiro</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="facil4" name="terceiroServico4" value="Fácil" />
+                                    <label for="facil4">Fácil</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="medio4" name="terceiroServico4" value="Médio" />
+                                    <label for="medio4">Médio</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="dificil4" name="terceiroServico4" value="Difícil" />
+                                    <label for="dificil4">Difícil</label>
+                                </div>
+                            </div>
+                            <br />
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="embalagem4">Embalagem:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="semEmbalagem4" name="embalagem4" value="Sem Embalagem"
+                                        checked />
+                                    <label for="semEmbalagem4">Sem Embalagem</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="simples4" name="embalagem4" value="Simples" />
+                                    <label for="simples4">Simples</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="reforcada4" name="embalagem4" value="Reforçada" />
+                                    <label for="reforcada4">Reforçada</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label for="frete4">Frete:</label><br />
+                            <div>
+                                <div>
+                                    <input type="radio" id="FOB4" name="frete4" value="FOB" checked />
+                                    <label for="FOB4">FOB</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifDK4" name="frete4" value="CIF(Disk&Tenha)" />
+                                    <label for="cifDK4">CIF<br>(Disk&Tenha)</label><br />
+                                </div>
+                                <div>
+                                    <input type="radio" id="cifTP4" name="frete4" value="CIF(Transportadora)" />
+                                    <label for="cifTP4">CIF<br>(Transportadora)</label><br />
+                                </div>
+                                <br />
+                            </div>
+                        </div><br />
+
+                        <div class="estilo-botao">
+                            <label>Inf. Adicionais:</label><br />
+                            <textarea id="additionalInfo" name="additionalInfo4" rows="3"></textarea><br /><br />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!---formulario 6 /////-->
+            <div class="formulario" id="formulario5">
+                <div class="habilitar-form">
+                    <h1>Arquivo 6</h1>
+                </div>
+                <div class="Form" id="form5" style="display: none">
+
+                    <div class="estilo-botao">
+                        <label for="ideia-produto5">Ideia do produto:</label>
+                        <input type="text" name="ideiaproduto5" id="ideia-produto5"
+                            placeholder="Descreva o material a ser produzido"><br><br>
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="tipoimpressao5">Tipo de impressão:</label>
+                        <select name="tipoimpressao5" id="tipo-impressao5">
+                            <option value="Impressão Latex">Impressão Latex </option>
+                            <option value="Impressão em Lona">Impressão Lona</option>
+                            <option value="Impressão UV">Impressão UV</option>
+                        </select><br><br>
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="data-entrega5">Data de finalização:</label>
+                        <input type="date" id="dataEntrega5" name="dataEntrega5" class="dataFinal5"
+                            pattern="DD-MM-YYYY" /><br /><br />
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="data-final5">Data de finalização:</label>
+                        <input type="date" id="dataFinal5" name="dataFinal5" class="dataFinal5"
+                            pattern="DD-MM-YYYY" /><br /><br />
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="dimensions5">Dimensão Final (L x A):</label>
+                        <input type="text" class="dimensions" id="dimensions5" name="dimensions5"
+                            placeholder="0,00 x 0,00m" maxlength="15" value="00,00 x 00,00m" /><br /><br />
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="sangra5">Sangra (L x A):</label>
+                        <input type="text" id="sangra5" name="sangra5" placeholder="0,0 x 0,0mm" /><br /><br />
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="material5">Material:</label>
+                        <input type="text" id="material5" name="material5"
+                            placeholder="PVC, PS, Adesivo, Lona, etc..." /><br /><br />
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="quantity5">Quantidade:</label>
+                        <input type="number" id="quantity5" name="quantity5"
+                            placeholder="Insira a quantidade em un." /><br /><br />
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label>Impressão:</label><br />
+                        <div>
+                            <div>
+                                <input type="radio" id="normalPrint5" name="printType5" value="Normal" />
+                                <label for="normalPrint5" class="label-radio">Normal</label><br />
+                            </div>
+
+                            <div class="radio-ultimo">
+                                <input type="radio" id="invertedPrint5" name="printType5" value="Invertida" />
+                                <label for="invertedPrint5" class="label-radio">Invertida</label><br /><br />
+                            </div>
+                        </div><br>
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="cores5">Cores:</label>
+                        <select id="cores5" name="cores5">
+                            <option value="4x0 (CMYK)">4x0 (CMYK)</option>
+                            <option value="5x0 (CMYK+W)">5x0 (CMYK+W)</option>
+                            <option value="1x0">1x0</option>
+                        </select><br /><br />
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label>Calço:</label><br />
+                        <div>
+                            <div>
+                                <input type="radio" id="noWhite5" name="calco5" value="Sem" />
+                                <label for="noWhite5">Sem</label><br />
+                            </div>
+                            <div class="radio-ultimo">
+                                <input type="radio" id="spotWhite5" name="calco5" value="Localizado" />
+                                <label for="spotWhite5">Localizado</label><br /><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="fullWhite5" name="calco5" value="Branco Total" />
+                                <label for="fullWhite5">Branco Total</label><br />
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="estilo-botao">
+                        <label for="cut5">Corte:</label>
+                        <select id="cut5" name="cut5">
+                            <option value="Sem corte">Sem corte</option>
+                            <option value="Especial">Especial</option>
+                            <option value="Meio corte">Meio corte</option>
+                            <option value="Reto">Reto</option>
+                        </select><br /><br />
+                    </div>
+
+                    <div class="estilo-botao">
+                        <label for="acabamentoset5">Acabamento: <br>(setor)</label><br />
+                        <div>
+                            <div>
+                                <input type="radio" id="semAcabamento5" name="acabamentoset5" value="Sem Acabamento"
+                                    checked />
+                                <label for="semAcabamento5">Sem acabamento</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="flexibleFinish5" name="acabamentoset5" value="Flexível" />
+                                <label for="flexibleFinish5">Flexível</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="rigidFinish5" name="acabamentoset5" value="Rígido" />
+                                <label for="rigidFinish5">Rígido</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="installationFinish5" name="acabamentoset5" value="Instalação" />
+                                <label for="installationFinish5">Instalação</label><br /><br />
+                            </div>
+                        </div>
+                    </div><br>
+
+                    <div class="estilo-botao">
+                        <label for="acabamento5">Acabamento: <br>(material) </label>
+                        <select name="acabamento5" id="acabamento5">
+                            <option value="Sem">Sem</option>
+                            <option value="Banner">Banner</option>
+                            <option value="Backdrop (grampeado)">Backdrop (grampeado)</option>
+                            <option value="Backdrop (dupla face)">Backdrop (dupla face)</option>
+                            <option value="Dobra">Dobra</option>
+                            <option value="Dupla Face">Dupla Face</option>
+                            <option value="Ilhós">Ilhós</option>
+                            <option value="Solda">Solda</option>
+                        </select><br>
+                    </div><br>
+
+                    <div class="estilo-botao">
+                        <label for="lamination5">Laminação:</label>
+                        <select id="lamination5" name="lamination5">
+                            <option value="Sem">Sem</option>
+                            <option value="transp-briho">Adesivo Tranparente brilho</option>
+                            <option value="transp-fosco">Adesivo Transparente fosco</option>
+                            <option value="jateado">Adesivo Jateado</option>
+                        </select><br />
+                    </div><br />
+
+                    <div class="estilo-botao">
+                        <label for="mascara5">Máscara:</label><br />
+                        <div>
+                            <div>
+                                <input type="radio" id="semMascara5" name="mascara5" value="Sem Máscara" />
+                                <label for="semMascara5">Sem máscara</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="mascaraTransparente5" name="mascara5" value="Transparente" />
+                                <label for="mascaraTransparente5">Máscara transparente</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="mascaraPapel5" name="mascara5" value="Papel" />
+                                <label for="mascaraPapel5">Máscara de papel</label>
+                            </div>
+                            <br />
+                        </div>
+                    </div><br />
+
+                    <div class="estilo-botao">
+                        <label for="solda5">Solda:</label>
+                        <select name="solda5" id="solda5">
+                            <option value="Sem">Sem</option>
+                            <option value="Bainha simples">Bainha simples</option>
+                            <option value="Bainha dupla">Bainha dupla</option>
+                            <option value="Bainha tripla">Bainha tripla</option>
+                            <option value="Bainha tripla + cordinha">
+                                Bainha tripla + cordinha
+                            </option>
+                            <option value="Radiofrequencia">Radiofrequência (banner)</option>
+                            <option value="solda fria">Solda fria</option>
+                        </select><br />
+                    </div><br />
+
+                    <div class="estilo-botao">
+                        <label for="terceiroServico5">Prestação de Serviço: <br>(grau de dificuldade) </label><br />
+                        <div>
+                            <div>
+                                <input type="radio" id="semServico5" name="terceiroServico5" value="Sem Terceiro"
+                                    checked />
+                                <label for="semServico5">Sem terceiro</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="facil5" name="terceiroServico5" value="Fácil" />
+                                <label for="facil5">Fácil</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="medio5" name="terceiroServico5" value="Médio" />
+                                <label for="medio5">Médio</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="dificil5" name="terceiroServico5" value="Difícil" />
+                                <label for="dificil5">Difícil</label>
+                            </div>
+                            <br />
+                        </div>
+                    </div><br />
+
+                    <div class="estilo-botao">
+                        <label for="embalagem5">Embalagem:</label><br />
+                        <div>
+                            <div>
+                                <input type="radio" id="semEmbalagem5" name="embalagem5" value="Sem Embalagem"
+                                    checked />
+                                <label for="semEmbalagem5">Sem Embalagem</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="simples5" name="embalagem5" value="Simples" />
+                                <label for="simples5">Simples</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="reforcada5" name="embalagem5" value="Reforçada" />
+                                <label for="reforcada5">Reforçada</label><br />
+                            </div>
+                            <br />
+                        </div>
+                    </div><br />
+
+                    <div class="estilo-botao">
+                        <label for="frete5">Frete:</label><br />
+                        <div>
+                            <div>
+                                <input type="radio" id="FOB5" name="frete5" value="FOB" checked />
+                                <label for="FOB5">FOB</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="cifDK5" name="frete5" value="CIF(Disk&Tenha)" />
+                                <label for="cifDK5">CIF<br>(Disk&Tenha)</label><br />
+                            </div>
+                            <div>
+                                <input type="radio" id="cifTP5" name="frete5" value="CIF(Transportadora)" />
+                                <label for="cifTP5">CIF<br>(Transportadora)</label><br />
+                            </div>
+                            <br />
+                        </div>
+                    </div><br />
+
+                    <div class="estilo-botao">
+                        <label>Inf. Adicionais:</label><br />
+                        <textarea id="additionalInfo" name="additionalInfo5" rows="3"></textarea><br /><br />
+                    </div>
+                </div>
+
+            </div>
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+
+        <script src="./script.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,245 @@
+:root
+{
+    --fundo-topo: #b8b0d7;
+    --fundo-baixo: #9184be;
+    --cor-fonte1: #2d2c4f;
+}
+
+*
+{
+    padding: 0;
+    margin: 0 auto;
+    text-decoration: none;
+}
+
+body
+{
+    overflow: hidden;
+}
+
+.body
+{
+    width: 120vw;
+    height: 130vh;
+    margin: -15vh 0 0 -10vw;
+    background-color: white;
+    background-size: 3vh;
+    transform: rotate(-5deg);
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    grid-template-rows: 10vh 80vh 5vh 5vh;
+    grid-template-areas:
+        "logo"
+        "corpo"
+        "."
+        "slogan";
+
+    img
+    {
+        width: 20vw;
+        height: 10vh;
+        margin-left: 5vw;
+        transform: rotate(5deg);
+        grid-area: logo;
+    }
+
+    #slogan
+    {
+        margin-top: -3.5vh;
+        margin-left: -5vw;
+        color: #5E4F9C;
+        font-size: xx-large;
+        height: 5vh;
+        transform: rotate(5deg);
+        grid-area: slogan;
+    }
+}
+
+.body,
+.corpo
+{
+    background-image: url(/fundo.svg);
+    background-origin: border-box;
+}
+
+.corpo
+{
+    background-color: #625FA8;
+    background-size: 4vh;
+    transform: rotate(5deg);
+    width: 25%;
+    height: fit-content;
+    padding: 0 2vw 0 2vw;
+    border-radius: 5% / 5%;
+    box-shadow: 0 2vw 2vw 0 var(--cor-fonte1);
+    margin: auto;
+    grid-area: corpo;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.formulario-login-cadastro
+{
+    width: 100%;
+    height: fit-content;
+    display: grid;
+    grid-template-areas:
+        "titulo titulo titulo"
+        "aviso aviso aviso"
+        "nome nome nome"
+        /* "nome" e "span" tem somente na pagina de cadastro */
+        "login login login"
+        "senha senha senha"
+        ". . ."
+        "entrar . cadastro"
+        ". . ."
+    ;
+    grid-gap: 2vh;
+    align-content: center;
+
+    h1,
+    #div-login,
+    #div-senha,
+    #div-nome
+    {
+        width: 100%;
+    }
+
+    h1
+    {
+        font-size: 3rem;
+        margin: 0 auto;
+        grid-area: titulo;
+        transition: -1s;
+    }
+
+    .span
+    {
+        width: 100%;
+        height: fit-content;
+        padding-block: 2%;
+        grid-area: aviso;
+        background-color: rgba(255, 20, 20, 0.714);
+        color: #660000;
+        font-size: small;
+        border-radius: 2vh /2vh;
+        display: flex;
+
+        .aviso
+        {
+            width: 0;
+            height: 0;
+            margin-left: 2%;
+
+            border-bottom: 5vh solid blue;
+            border-left: 3vh solid transparent;
+            border-right: 3vh solid transparent;
+
+        }
+    }
+
+    #div-nome
+    {
+        grid-area: nome;
+    }
+
+    #div-login
+    {
+        grid-area: login;
+    }
+
+    #div-senha
+    {
+        grid-area: senha;
+    }
+
+    .div-cadastro
+    {
+        grid-area: cadastro;
+        justify-self: end;
+
+        a
+        {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            align-items: center;
+            display: flex;
+            color: var(--cor-fonte1);
+            text-decoration: none;
+            transition: -0.5s;
+
+
+        }
+    }
+
+    #div-entrar
+    {
+        grid-area: entrar;
+
+        a
+        {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            align-items: center;
+            margin: 0 auto;
+            display: flex;
+            color: var(--cor-fonte1);
+            text-decoration: none;
+            transition: -0.5s;
+
+            text
+            {
+                margin: auto;
+            }
+
+        }
+
+        .div-cadastro:hover a text,
+        .div-cadastro:hover text
+        {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+#senha
+{
+    width: 90%;
+}
+
+.input-senha
+{
+    width: 100%;
+}
+
+.mostrar-senha
+{
+    width: 10%;
+    height: 100%;
+    margin: 0 auto;
+
+    img
+    {
+        width: fit-content;
+        height: 50%;
+        cursor: pointer;
+        transform: rotate(-1deg);
+        margin: auto;
+
+    }
+
+    input[type='checkbox']
+    {
+        display: none;
+    }
+}
+
+a
+{
+    display: flex;
+    justify-content: center;
+}
