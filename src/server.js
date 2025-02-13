@@ -6,7 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const Database = require('better-sqlite3');
 const app = express();
-const port = 3000;
+const port = 4000;
 
 // Middleware para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, '../')));
