@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
 const path = require('path');
-const Database = require('better-sqlite3');
+// const Database = require('better-sqlite3');
 const app = express();
-const port = 4000;
+const port = 3000;
+const { Dropbox } = require("dropbox");
+require("dotenv").config(); // Carregar variáveis de ambiente
+const { neon } = require("@neondatabase/serverless");
 
 // Middleware para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, '../')));
@@ -18,11 +21,11 @@ app.get('/style.css', function (req, res) {
 });
 app.get('/style-login.css', function (req, res) {
     res.setHeader('Content-Type', 'text/css');
-    res.sendFile(__dirname + './src/css/style.css');
+    res.sendFile(__dirname + './src/css/style-login.css');
 });
 app.get('/style-index.css', function (req, res) {
     res.setHeader('Content-Type', 'text/css');
-    res.sendFile(__dirname + './src/css/style.css');
+    res.sendFile(__dirname + './src/css/style-index.css');
 });
 
 // Middleware para analisar solicitações JSON
@@ -30,17 +33,38 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Middleware para salvar uploads
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, '../uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, '../uploads/');
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.originalname);
+//     }
+// });
+
+// const upload = multer({ dest: '../uploads/' });
+
+//-----TESTE COM DROPBOX-----
+const dbx = new Dropbox({ acessToken: "d9hsf4szct64ukp" });
+
+const storage = multer.memoryStorage(); // Armazena arquivos na memória antes do envio
+const upload = multer({ storage });
+
+app.post("/upload", upload.single("file"), async (req, res) => {
+    try {
+        const bufferStream = new stream.PassThrough();
+        bufferStream.end(req.file.buffer);
+
+        await dbx.filesUpload({
+            path: `/${req.file.originalname}`,
+            contents: bufferStream,
+        });
+
+        res.status(200).send("Arquivo enviado com sucesso!");
+    } catch (error) {
+        res.status(500).send(error.message);
     }
 });
-
-const upload = multer({ dest: '../uploads/' });
-
 app.set('view engine', 'ejs');
 
 // Middleware para analisar solicitações JSON
@@ -77,78 +101,98 @@ app.get('/', (req, res) => {
 });
 
 // ------------------TESTE------------------
-const db = new Database('./db/banco_de_dados.db')
+const sql = neon(process.env.DATABASE_URL);
 
-db.prepare(`
-    create table if not exists usuario (
-    nome varchar(255) not null,
-    email varchar(255) not null,
-    senha varchar(255) not null
-    )
-    `).run()
+// Configurar middleware para processar dados de formulário
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Configurar sessão
+app.use(session({
+    secret: 'seu-segredo',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        secure: false,// Se estiver usando HTTPS, mude para true
+        maxAge: 1000 * 60 * 60// Sessão válida por 1 hora
+    }
+}));
+
+// Criar tabela de usuários se não existir
+const criarTabelaUsuario = async () => {
+    await sql`
+        CREATE TABLE IF NOT EXISTS usuario (
+            nome VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            senha VARCHAR(255) NOT NULL
+        );
+    `;
+};
+criarTabelaUsuario();
+
 // Rota para processar o formulário de login
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
     const { email, senha } = req.body;
-    console.log('Dados recebidos FORM:', [req.body.email, req.body.senha]);
-    // Consulta SQL para verificar se o usuário existe no banco de dados
-    /*const query = `SELECT * FROM usuario WHERE email = ? AND senha = ?`;
-    connection.query(query, [email, senha], (err, results) => {
-        console.log('Dados recebidos SQL:', [email, senha]);
-        if (err || results.length === 0) {
-            console.error('Erro ao autenticar usuário:', err);
-            res.redirect('/');
-        } else {
-            // Usuário autenticado com sucesso
-            const nomeUsuario = results[0].nome;
-            req.session.usuario = results[0]; // Armazena o usuário na sessão
-            res.redirect('/paginaInicial');
-        }
-    });*/
+    console.log('Dados recebidos FORM:', [email, senha]);
 
-    const consultaUsuario = db.prepare(`SELECT * FROM usuario WHERE email = ? AND senha = ?`)
     try {
-        // Executa a consulta e obtém os resultados
-        const results = consultaUsuario.all(email, senha);
+        // Consulta SQL para verificar se o usuário existe no banco de dados
+        const result = await sql`
+            SELECT * FROM usuario WHERE email = ${email} AND senha = ${senha};
+        `;
 
         console.log('Dados recebidos SQL:', [email, senha]);
 
-        if (results.length === 0) {
-            console.error('Erro: Nenhum usuário encontrado.');
+        if (result.length === 0) {
+            console.log('Erro: Nenhum usuário encontrado.');
             res.redirect('/');
         } else {
             // Usuário autenticado com sucesso
-            const nomeUsuario = results[0].nome;
-            req.session.usuario = results[0]; // Armazena o usuário na sessão
-            res.redirect('/paginaInicial');
+            const nomeUsuario = result[0].nome;
+            // Salvar usuário na sessão
+            req.session.usuario = result[0];
+            req.session.save(err => {
+                if (err) {
+                    console.error('Erro ao salvar a sessão:', err);
+                    return res.redirect('/');
+                }
+                console.log('Usuário autenticado:', req.session.usuario);
+                res.redirect('/paginaInicial');
+            });
+
         }
     } catch (err) {
-        console.log('Erro ao autenticar Usuario: ', err)
-        res.redirect('/')
+        console.log('Erro ao autenticar usuário: ', err);
+        res.redirect('/');
     }
 });
-
-
+app.get('/session-debug', (req, res) => {
+    console.log('Sessão atual:', req.session);
+    res.json(req.session);
+});
 // Função para verificar se o usuário está autenticado
-const usuarioAutenticado = (email, senha, callback) => {
-    const query = `SELECT * FROM usuario WHERE email = ? AND senha = ?`;
-    connection.query(query, [email, senha], (err, results) => {
-        if (err) {
-            console.error('Erro ao autenticar usuário:', err);
-            callback(err, false); // Chama o callback com erro e falso
-        } else {
-            // Verifica se há algum resultado retornado pela consulta
-            const autenticado = results.length > 0;
-            callback(null, autenticado); // Chama o callback com nulo (sem erro) e o valor booleano
-        }
-    });
+const usuarioAutenticado = async (email, senha) => {
+    const result = await sql`
+        SELECT * FROM usuario WHERE email = ${email} AND senha = ${senha};
+    `;
+    return result.length; // Retorna se o usuário existe
 };
+
 // Middleware para verificar se o usuário está autenticado
 const verificarAutenticacao = (req, res, next) => {
+    console.log('verificando autenticação:', req.session);
+
     const usuario = req.session.usuario;
     if (usuario) {
         next(); // Avança para a próxima rota ou middleware se o usuário estiver autenticado
+        console.log('usuario autenticado:', req.session.usuario);
+
     } else {
         res.redirect('/'); // Redireciona para a página de login se o usuário não estiver autenticado
+        console.log('usuario não autenticado:', req.session.usuario);
+        console.log('redirecionado para /');
+
+
     }
 };
 
@@ -158,40 +202,31 @@ app.get('/cadastro', (req, res) => {
 });
 
 // Rota para processar o formulário de cadastro
-app.post('/cadastro', (req, res) => {
+app.post('/cadastro', async (req, res) => {
     const { nome, email, senha } = req.body;
 
-    // Consulta SQL para inserir um novo usuário no banco de dados
-    /*const query = `INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)`;
-    connection.query([nome, email, senha], (err, results) => {
-        if (err) {
-            console.error('Erro ao cadastrar usuário:', err);
-            res.redirect('/cadastro');
-        } else {
-            // Usuário cadastrado com sucesso
-            console.log(`Usuario registrado: ${nome}, ${email}, ${senha}`)
-            res.redirect('/');
-        }
-    });*/
-
-    const inserirUsuario = db.prepare(`INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)`)
     try {
-        const info = inserirUsuario.run(nome, email, senha);
+        // Consulta SQL para inserir um novo usuário no banco de dados
+        const inserirUsuario = await sql`
+            INSERT INTO usuario (nome, email, senha)
+            VALUES (${nome}, ${email}, ${senha});
+        `;
+
         console.log(`Usuário registrado: ${nome}, ${email}, ${senha}`);
         res.redirect('/');
     } catch (err) {
         console.error('Erro ao cadastrar usuário:', err);
         res.redirect('/cadastro');
     }
-
 });
 
 
 // Rota para exibir a página inicial, protegida pelo middleware de autenticação
 app.get('/paginaInicial', verificarAutenticacao, (req, res) => {
     res.sendFile(path.join(__dirname, '../paginaInicial.html'));
-});
+    console.log('entrando em /paginaInicial');
 
+});
 
 
 // Rota para exibir a página inicial, protegida pelo middleware de autenticação
@@ -813,7 +848,8 @@ app.get('/logout', (req, res) => {
     });
 });
 // Iniciar o servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
-    console.log(`${__dirname + '\\css\\'}`);
-});
+// app.listen(port, () => {
+//     console.log(`Servidor rodando em http://localhost:${port}`);
+//     console.log(`${__dirname + '\\css\\'}`);
+// });
+module.exports = app
