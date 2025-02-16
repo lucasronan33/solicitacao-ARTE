@@ -10,22 +10,24 @@ const port = 3000;
 const { Dropbox } = require("dropbox");
 require("dotenv").config(); // Carregar variáveis de ambiente
 const { neon } = require("@neondatabase/serverless");
+const sql = neon(process.env.DATABASE_URL);
+const pgSession = require('connect-pg-simple')(session);
 
 // Middleware para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, '../')));
 
 // Middleware para servir arquivos CSS
-app.get('/style.css', function (req, res) {
+app.get('/style.css', res => {
     res.setHeader('Content-Type', 'text/css');
-    res.sendFile(__dirname + './src/css/style.css');
+    res.sendFile(path.join(__dirname, './src/css/style.css'));
 });
-app.get('/style-login.css', function (req, res) {
+app.get('/style-login.css', res => {
     res.setHeader('Content-Type', 'text/css');
-    res.sendFile(__dirname + './src/css/style-login.css');
+    res.sendFile(path.join(__dirname, './src/css/style-login.css'));
 });
-app.get('/style-index.css', function (req, res) {
+app.get('/style-index.css', res => {
     res.setHeader('Content-Type', 'text/css');
-    res.sendFile(__dirname + './src/css/style-index.css');
+    res.sendFile(path.join(__dirname, './src/css/style-index.css'));
 });
 
 // Middleware para analisar solicitações JSON
@@ -67,16 +69,12 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 });
 app.set('view engine', 'ejs');
 
-// Middleware para analisar solicitações JSON
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // Middleware de sessão
-app.use(session({
-    secret: 'sua-chave-secreta-aqui',
-    resave: false,
-    saveUninitialized: false
-}));
+// app.use(session({
+//     secret: 'sua-chave-secreta-aqui',
+//     resave: false,
+//     saveUninitialized: false
+// }));
 
 // Configuração da conexão com o banco de dados
 /*const connection = mysql.createConnection({
@@ -89,32 +87,36 @@ app.use(session({
 // Rota para exibir a página de login
 app.get('/', (req, res) => {
     // Destruir a sessão do usuário ao acessar a página de login
-    req.session.destroy(err => {
-        if (err) {
-            console.error('Erro ao destruir sessão:', err);
-            res.status(500).send('Erro ao destruir sessão');
-        } else {
-            // Redirecionar para a página de login
-            res.sendFile(path.join(__dirname, '../index.html'));
-        }
-    });
+    // req.session.destroy(err => {
+    //     if (err) {
+    //         console.error('Erro ao destruir sessão:', err);
+    //         res.status(500).send('Erro ao destruir sessão');
+    //     } else {
+    //         // Redirecionar para a página de login
+    //         res.sendFile(path.join(__dirname, '../index.html'));
+    //     }
+    // });
+
+    if (req.session.usuario) {
+        return res.redirect('/paginaInicial'); // Se já estiver autenticado, redireciona
+    }
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 // ------------------TESTE------------------
-const sql = neon(process.env.DATABASE_URL);
-
-// Configurar middleware para processar dados de formulário
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 // Configurar sessão
 app.use(session({
+    store: new pgSession({
+        conString: process.env.DATABASE_URL,
+        createTableIfMissing: true // Cria a tabela se não existir
+    }),
+    name: 'teste1',
     secret: 'seu-segredo',
     resave: true,
     saveUninitialized: true,
     cookie: {
-        secure: false,// Se estiver usando HTTPS, mude para true
-        maxAge: 1000 * 60 * 60// Sessão válida por 1 hora
+        maxAge: 1000 * 60 * 60 * 24// Sessão válida por 1 dia
     }
 }));
 
@@ -146,30 +148,52 @@ app.post('/', async (req, res) => {
         if (result.length === 0) {
             console.log('Erro: Nenhum usuário encontrado.');
             res.redirect('/');
-        } else {
+        }
             // Usuário autenticado com sucesso
             const nomeUsuario = result[0].nome;
+
             // Salvar usuário na sessão
-            req.session.usuario = result[0];
+        req.session.usuario = nomeUsuario;
+        req.session.name = nomeUsuario;
+        console.log('result:', result);
+        console.log('result:', req.session.cookie);
+
+
             req.session.save(err => {
                 if (err) {
-                    console.error('Erro ao salvar a sessão:', err);
+                    console.error('❌ Erro ao salvar sessão:', err);
                     return res.redirect('/');
                 }
-                console.log('Usuário autenticado:', req.session.usuario);
+
+                console.log('✅ Sessão salva com sucesso:', req.session);
                 res.redirect('/paginaInicial');
             });
-
-        }
     } catch (err) {
         console.log('Erro ao autenticar usuário: ', err);
         res.redirect('/');
     }
 });
 app.get('/session-debug', (req, res) => {
-    console.log('Sessão atual:', req.session);
+    if (!req.session.usuario) {
+        req.session.usuario = { nome: "Teste", email: "teste@email.com" };
+        req.session.save();
+    }
     res.json(req.session);
 });
+app.get('/debug-sessions', async (req, res) => {
+    const store = req.sessionStore;
+
+    store.all((err, sessions) => {
+        if (err) {
+            console.error('❌ Erro ao buscar sessões:', err);
+            return res.json({ erro: 'Erro ao buscar sessões' });
+        }
+
+        console.log('🔍 Todas as sessões:', sessions);
+        res.json(sessions);
+    });
+});
+
 // Função para verificar se o usuário está autenticado
 const usuarioAutenticado = async (email, senha) => {
     const result = await sql`
@@ -180,22 +204,17 @@ const usuarioAutenticado = async (email, senha) => {
 
 // Middleware para verificar se o usuário está autenticado
 const verificarAutenticacao = (req, res, next) => {
-    console.log('verificando autenticação:', req.session);
+    console.log('🔍 Verificando autenticação...');
+    console.log('Sessão atual:', req.session);
 
-    const usuario = req.session.usuario;
-    if (usuario) {
-        next(); // Avança para a próxima rota ou middleware se o usuário estiver autenticado
-        console.log('usuario autenticado:', req.session.usuario);
-
+    if (req.session.usuario) {
+        console.log('✅ Usuário autenticado:', req.session.usuario);
+        next();
     } else {
-        res.redirect('/'); // Redireciona para a página de login se o usuário não estiver autenticado
-        console.log('usuario não autenticado:', req.session.usuario);
-        console.log('redirecionado para /');
-
-
+        console.log('❌ Usuário NÃO autenticado, redirecionando...');
+        res.redirect('/');
     }
 };
-
 // Rota para exibir a página de cadastro
 app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, '../cadastro.html'));
