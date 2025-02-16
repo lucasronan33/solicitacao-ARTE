@@ -111,7 +111,6 @@ app.use(session({
         conString: process.env.DATABASE_URL,
         createTableIfMissing: true // Cria a tabela se não existir
     }),
-    name: 'teste1',
     secret: 'seu-segredo',
     resave: true,
     saveUninitialized: true,
@@ -149,12 +148,14 @@ app.post('/', async (req, res) => {
             console.log('Erro: Nenhum usuário encontrado.');
             res.redirect('/');
         }
-            // Usuário autenticado com sucesso
-            const nomeUsuario = result[0].nome;
+        // Usuário autenticado com sucesso
+        req.session.name = result[0].nome;
 
             // Salvar usuário na sessão
-        req.session.usuario = nomeUsuario;
-        req.session.name = nomeUsuario;
+        req.session.usuario = {
+            email: result[0].email,
+            senha: result[0].senha
+        }
         console.log('result:', result);
         console.log('result:', req.session.cookie);
 
@@ -195,13 +196,6 @@ app.get('/debug-sessions', async (req, res) => {
 });
 
 // Função para verificar se o usuário está autenticado
-const usuarioAutenticado = async (email, senha) => {
-    const result = await sql`
-        SELECT * FROM usuario WHERE email = ${email} AND senha = ${senha};
-    `;
-    return result.length; // Retorna se o usuário existe
-};
-
 // Middleware para verificar se o usuário está autenticado
 const verificarAutenticacao = (req, res, next) => {
     console.log('🔍 Verificando autenticação...');
@@ -849,7 +843,7 @@ app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async
         res.redirect('/paginaInicial'); // Redireciona de volta para a página inicial
     } catch (error) {
         console.error('Erro ao enviar e-mail:', error);
-        res.status(500).send('Erro ao enviar e-mail');
+        res.status(500).send('Erro ao enviar e-mail:' + error);
     }
 });
 
