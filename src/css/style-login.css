@@ -59,7 +59,7 @@ body
 .body,
 .corpo
 {
-    background-image: url(../../img/fundo.svg);
+    background-image: url(./img/fundo.svg);
     background-origin: border-box;
 }
 

@@ -1,3 +1,5 @@
+require('dotenv').config();// Carregar variáveis de ambiente
+const connectionString = process.env.DATABASE_URL;
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -8,24 +10,44 @@ const path = require('path');
 const app = express();
 const port = 3000;
 const { Dropbox } = require("dropbox");
-require("dotenv").config(); // Carregar variáveis de ambiente
 const { neon } = require("@neondatabase/serverless");
-const sql = neon(process.env.DATABASE_URL);
+const sql = neon(connectionString);
 const pgSession = require('connect-pg-simple')(session);
 
+// Teste de conexão com Banco de Dados
+if (!connectionString) {
+    throw new Error("⚠ ERRO: A variável DATABASE_URL não foi definida no .env");
+}
+
+(async () => {
+    try {
+        await sql`SELECT 1`;
+        console.log("✅ Conectado ao banco de dados!");
+    } catch (error) {
+        console.error("❌ Erro na conexão com o banco:", error);
+    }
+})();
+
 // Middleware para servir arquivos estáticos
-app.use(express.static(path.join(__dirname, '../')));
+// app.use(express.static(path.join(__dirname, '../../')));
+app.use(express.static(__dirname));
+app.use('/favicon', express.static(path.join(__dirname, './img/logo Showmais (roxo).png')));
+app.use('/img', express.static(path.join(__dirname, './img/')));
+app.use('/fonts', express.static(path.join(__dirname, './fonts')));
+app.use('/src', express.static(path.join(__dirname, './src')));
+console.log(__dirname);
+
 
 // Middleware para servir arquivos CSS
-app.get('/style.css', res => {
+app.get('/style', (req, res) => {
     res.setHeader('Content-Type', 'text/css');
     res.sendFile(path.join(__dirname, './src/css/style.css'));
 });
-app.get('/style-login.css', res => {
+app.get('/style-login', (req, res) => {
     res.setHeader('Content-Type', 'text/css');
     res.sendFile(path.join(__dirname, './src/css/style-login.css'));
 });
-app.get('/style-index.css', res => {
+app.get('/style-index', (req, res) => {
     res.setHeader('Content-Type', 'text/css');
     res.sendFile(path.join(__dirname, './src/css/style-index.css'));
 });
@@ -100,7 +122,9 @@ app.get('/', (req, res) => {
     if (req.session.usuario) {
         return res.redirect('/paginaInicial'); // Se já estiver autenticado, redireciona
     }
-    res.sendFile(path.join(__dirname, '../index.html'));
+    res.sendFile(path.join(__dirname, './index.html'));
+    console.log(path.join(__dirname, './index.html'));
+
 });
 
 // ------------------TESTE------------------
@@ -151,7 +175,7 @@ app.post('/', async (req, res) => {
         // Usuário autenticado com sucesso
         req.session.name = result[0].nome;
 
-            // Salvar usuário na sessão
+        // Salvar usuário na sessão
         req.session.usuario = {
             email: result[0].email,
             senha: result[0].senha
@@ -160,15 +184,15 @@ app.post('/', async (req, res) => {
         console.log('result:', req.session.cookie);
 
 
-            req.session.save(err => {
-                if (err) {
-                    console.error('❌ Erro ao salvar sessão:', err);
-                    return res.redirect('/');
-                }
+        req.session.save(err => {
+            if (err) {
+                console.error('❌ Erro ao salvar sessão:', err);
+                return res.redirect('/');
+            }
 
-                console.log('✅ Sessão salva com sucesso:', req.session);
-                res.redirect('/paginaInicial');
-            });
+            console.log('✅ Sessão salva com sucesso:', req.session);
+            res.redirect('/paginaInicial');
+        });
     } catch (err) {
         console.log('Erro ao autenticar usuário: ', err);
         res.redirect('/');
@@ -211,7 +235,7 @@ const verificarAutenticacao = (req, res, next) => {
 };
 // Rota para exibir a página de cadastro
 app.get('/cadastro', (req, res) => {
-    res.sendFile(path.join(__dirname, '../cadastro.html'));
+    res.sendFile(path.join(__dirname, './cadastro.html'));
 });
 
 // Rota para processar o formulário de cadastro
@@ -236,7 +260,7 @@ app.post('/cadastro', async (req, res) => {
 
 // Rota para exibir a página inicial, protegida pelo middleware de autenticação
 app.get('/paginaInicial', verificarAutenticacao, (req, res) => {
-    res.sendFile(path.join(__dirname, '../paginaInicial.html'));
+    res.sendFile(path.join(__dirname, './paginaInicial.html'));
     console.log('entrando em /paginaInicial');
 
 });
@@ -244,10 +268,10 @@ app.get('/paginaInicial', verificarAutenticacao, (req, res) => {
 
 // Rota para exibir a página inicial, protegida pelo middleware de autenticação
 app.get('/orcamento', verificarAutenticacao, (req, res) => {
-    res.sendFile(path.join(__dirname, '../orcamento.html'));
+    res.sendFile(path.join(__dirname, './orcamento.html'));
 });
 app.get('/artefinal', verificarAutenticacao, (req, res) => {
-    res.sendFile(path.join(__dirname, '../arteFinal.html'));
+    res.sendFile(path.join(__dirname, './arteFinal.html'));
 });
 // app.get('/impr-adesivo', verificarAutenticacao, (req, res) => {
 //     res.sendFile(path.join(__dirname, 'impr-adesivo.html'));
@@ -861,8 +885,8 @@ app.get('/logout', (req, res) => {
     });
 });
 // Iniciar o servidor
-// app.listen(port, () => {
-//     console.log(`Servidor rodando em http://localhost:${port}`);
-//     console.log(`${__dirname + '\\css\\'}`);
-// });
+app.listen(port, () => {
+    console.log(`Servidor rodando em http://localhost:${port}`);
+    // console.log(`${__dirname + '\\css\\'}`);
+});
 module.exports = app
