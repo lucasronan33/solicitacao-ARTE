@@ -5,7 +5,7 @@
 }
 @font-face {
     font-family: "Gotham Bold";
-    src: url(../../fonts/Gotham\ Bold.otf);
+    src: url(/fonts/Gotham\ Bold.otf);
 }
 *{
     padding: 0;
@@ -22,7 +22,7 @@ body{
     width: 120vw;
     height: 130vh;
     margin: -15vh 0  0 -10vw;
-    background-image: url(../../img/fundo-1.svg);
+    background-image: url(/img/fundo-1.svg);
     background-size: 3vh;
     transform: rotate(-5deg);
     display: flex;

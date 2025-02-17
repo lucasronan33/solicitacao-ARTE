@@ -126,17 +126,25 @@ body
         font-size: small;
         border-radius: 2vh /2vh;
         display: flex;
+        align-items: center;
+        justify-content: center;
 
         .aviso
         {
-            width: 0;
-            height: 0;
+            width: 3vh;
+            height: 3vh;
             margin-left: 2%;
+            background: url(/img/icone-aviso.svg);
+            background-size: contain;
+            background-repeat: no-repeat;
 
-            border-bottom: 5vh solid blue;
+            /* border-bottom: 5vh solid blue;
             border-left: 3vh solid transparent;
-            border-right: 3vh solid transparent;
+            border-right: 3vh solid transparent; */
 
+        }
+        .aviso-texto{
+            width: calc(95% - 3vh);
         }
     }
 
