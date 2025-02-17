@@ -131,8 +131,8 @@ body
 
         .aviso
         {
-            width: 3vh;
-            height: 3vh;
+            width: 6vh;
+            height: 6vh;
             margin-left: 2%;
             background: url(/img/icone-aviso.svg);
             background-size: contain;
