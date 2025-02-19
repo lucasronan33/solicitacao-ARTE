@@ -285,6 +285,7 @@ app.get('/artefinal', verificarAutenticacao, (req, res) => {
 //     res.sendFile(path.join(__dirname, 'impr-lona.html'));
 // });
 
+const upload = multer({ storage: multer.memoryStorage() });
 
 
 // Rota para lidar com o envio de e-mails
