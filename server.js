@@ -1,4 +1,5 @@
 require('dotenv').config();// Carregar variáveis de ambiente
+const fs = require('fs');
 const connectionString = process.env.DATABASE_URL;
 const express = require('express');
 const session = require('express-session');
