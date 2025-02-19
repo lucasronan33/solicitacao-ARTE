@@ -69,26 +69,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // const upload = multer({ dest: '../uploads/' });
 
 //-----TESTE COM DROPBOX-----
-const dbx = new Dropbox({ acessToken: "d9hsf4szct64ukp" });
+// const dbx = new Dropbox({ acessToken: "d9hsf4szct64ukp" });
 
-const storage = multer.memoryStorage(); // Armazena arquivos na memória antes do envio
-const upload = multer({ storage });
+// const storage = multer.memoryStorage(); // Armazena arquivos na memória antes do envio
+// const upload = multer({ storage });
 
-app.post("/upload", upload.single("file"), async (req, res) => {
-    try {
-        const bufferStream = new stream.PassThrough();
-        bufferStream.end(req.file.buffer);
+// app.post("/upload", upload.single("file"), async (req, res) => {
+//     try {
+//         // const bufferStream = new stream.PassThrough();
+//         // bufferStream.end(req.file.buffer);
 
-        await dbx.filesUpload({
-            path: `/${req.file.originalname}`,
-            contents: bufferStream,
-        });
+//         await dbx.filesUpload({
+//             path: `/${req.file.originalname}`,
+//             contents: req.file.buffer,
+//         });
 
-        res.status(200).send("Arquivo enviado com sucesso!");
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-});
+//         res.status(200).send("Arquivo enviado com sucesso!");
+//     } catch (error) {
+//         res.status(500).send(error.message);
+//     }
+// });
+// const response = await dbx.filesDownload({ path: `/${req.file.originalname}` });
+// const downloadedBuffer = response.result.fileBinary;
+
+// fs.writeFileSync(`./teste-${req.file.originalname}`, downloadedBuffer);
+
 app.set('view engine', 'ejs');
 
 // Middleware de sessão
@@ -854,7 +859,11 @@ app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async
             to: to,
             subject: assunto,
             html: htmlBody,
-            attachments: req.files.map(file => ({ filename: file.originalname, path: file.path }))
+            attachments: req.files.map(file => ({
+                filename: file.originalname,
+                content: fs.readFileSync(file.path, 'base64'),
+                encoding: 'base64'
+            }))
             //attachments: attachments ? attachments.map(file => ({ filename: file.originalname, path: file.path })) : [] // Corrigido para attachments.map
             //attachments: attachment ? [{ filename: attachment.originalname, path: attachment.path }] : []
             //^^^^^^^^^^^^^^^^^^envio de um anexo por email^^^^^^^^^^^^^^^^^^
