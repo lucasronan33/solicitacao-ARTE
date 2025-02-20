@@ -17,7 +17,18 @@ body{
     color: var(--fundo-topo);
     margin-top: 3vh
 }
-#logout{
+.profileUser{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.profileUser-img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--fundo-topo);
+}
+#logout,#paginaInicial{
     float: right;
     margin-right: 5%;
 
@@ -38,7 +49,7 @@ body{
         }
     }
 }
-#logout:hover a{
+#logout:hover a, #paginaInicial:hover a{
     color: rgba(255, 255, 255, 0.5);
 }
 #titulo-pagina{
