@@ -70,7 +70,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // const upload = multer({ dest: '../uploads/' });
 
 //-----TESTE COM DROPBOX-----
-// const dbx = new Dropbox({ acessToken: "d9hsf4szct64ukp" });
+const dbx = new Dropbox({
+    accessToken: process.env.DROPBOX_ACCESS_TOKEN
+});
 
 // const storage = multer.memoryStorage(); // Armazena arquivos na memória antes do envio
 // const upload = multer({ storage });
@@ -286,7 +288,13 @@ app.get('/artefinal', verificarAutenticacao, (req, res) => {
 //     res.sendFile(path.join(__dirname, 'impr-lona.html'));
 // });
 
-const upload = multer({ storage: multer.memoryStorage() });
+// Configure o multer para armazenar em memória em vez do disco
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 10 * 1024 * 1024 // limite de 10MB por arquivo
+    }
+});
 
 
 // Rota para lidar com o envio de e-mails
@@ -311,7 +319,10 @@ app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async
         // Exibindo os dados e o anexo no console do servidor
         console.log('Dados do formulário:', req.body);
         console.log('Anexos:', req.files);
-        const attachment = req.files;
+        const attachments = req.files ? req.files.map(file => ({
+            filename: file.originalname,
+            content: file.buffer
+        })) : [];
         // Coletando dados do formulário 0
         const {
             to,
@@ -857,18 +868,14 @@ app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async
 
         // Configurar as opções do e-mail
         const mailOptions = {
-            from: smtpConfig.auth.user,
+            from: {
+                address: smtpConfig.auth.user,
+                name: req.session.name
+            },
             to: to,
             subject: assunto,
             html: htmlBody,
-            attachments: req.files.map(file => ({
-                filename: file.originalname,
-                content: fs.readFileSync(file.path, 'base64'),
-                encoding: 'base64'
-            }))
-            //attachments: attachments ? attachments.map(file => ({ filename: file.originalname, path: file.path })) : [] // Corrigido para attachments.map
-            //attachments: attachment ? [{ filename: attachment.originalname, path: attachment.path }] : []
-            //^^^^^^^^^^^^^^^^^^envio de um anexo por email^^^^^^^^^^^^^^^^^^
+            attachments: attachments
         };
 
         // Enviando o e-mail
@@ -878,7 +885,7 @@ app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async
         res.redirect('/paginaInicial'); // Redireciona de volta para a página inicial
     } catch (error) {
         console.error('Erro ao enviar e-mail:', error);
-        res.status(500).send('Erro ao enviar e-mail:' + error);
+        res.status(500).send('Erro ao enviar e-mail: ' + error.message);
     }
 });
 
