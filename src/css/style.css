@@ -79,10 +79,61 @@ body {
                 align-items: center;
                 justify-content: center;
                 background-color: var(--fundo-topo);
+                cursor: pointer;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .menuProfile {
+                width: 15vw;
+                position: absolute;
+                top: 10vh;
+                background-color: #fff;
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border-radius: 1vw;
+                overflow: hidden;
+                cursor: default;
+
+                #menuProfile-text {
+                    width: 100%;
+                    color: var(--cor-fonte1);
+                    background-color: var(--fundo-topo);
+                    font-size: 3vh;
+                    line-height: 5vh;
+                    border-bottom: 1px solid var(--fundo-topo);
+                }
+
+                .menuProfile-options {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    text {
+                        width: 100%;
+                        font-size: 2vh;
+                        line-height: 5vh;
+                        border-bottom: 1px solid var(--fundo-topo);
+
+                        &:hover {
+                            background-color: var(--cor-fonte1);
+                            color: var(--fundo-topo);
+                            cursor: pointer;
+                        }
+                    }
+                }
             }
 
             .profileUser-name {
                 margin-top: 0.5vh;
+
             }
 
         }

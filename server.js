@@ -29,8 +29,36 @@ if (!connectionString) {
     }
 })();
 
-// Middleware para servir arquivos estáticos
-// app.use(express.static(path.join(__dirname, '../../')));
+// Primeiro configurar sessão
+app.use(session({
+    store: new pgSession({
+        conString: process.env.DATABASE_URL,
+        createTableIfMissing: true
+    }),
+    secret: 'seu-segredo',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}));
+
+// Definir rotas ANTES dos middlewares static
+app.get('/', (req, res) => {
+    if (req.session && req.session.usuario) {
+        return res.redirect('/paginaInicial');
+    }
+    return res.redirect('/login');
+});
+
+app.get('/login', (req, res) => {
+    if (req.session && req.session.usuario) {
+        return res.redirect('/paginaInicial');
+    }
+    res.sendFile(path.join(__dirname, './index.html'));
+});
+
+// DEPOIS das rotas, configurar os middlewares static
 app.use(express.static(__dirname));
 app.use('/favicon', express.static(path.join(__dirname, './img/logo Showmais (roxo).png')));
 app.use('/img', express.static(path.join(__dirname, './img/')));
@@ -74,6 +102,19 @@ const dbx = new Dropbox({
     accessToken: process.env.DROPBOX_ACCESS_TOKEN
 });
 
+// Teste de conexão com Dropbox
+(async () => {
+    try {
+        const response = await dbx.usersGetCurrentAccount();
+        console.log("✅ Conectado ao Dropbox!");
+    } catch (error) {
+        console.error("❌ Erro na conexão com o Dropbox:", error);
+        if (error.status === 401) {
+            console.error("⚠ Token de acesso inválido ou expirado");
+        }
+    }
+})();
+
 // const storage = multer.memoryStorage(); // Armazena arquivos na memória antes do envio
 // const upload = multer({ storage });
 
@@ -99,58 +140,6 @@ const dbx = new Dropbox({
 
 app.set('view engine', 'ejs');
 
-// Middleware de sessão
-// app.use(session({
-//     secret: 'sua-chave-secreta-aqui',
-//     resave: false,
-//     saveUninitialized: false
-// }));
-
-// Configuração da conexão com o banco de dados
-/*const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', // Nome de usuário do banco de dados
-    password: '123456', // Senha do banco de dados
-    database: 'mysql' // Nome do banco de dados
-});*/
-
-// Rota para exibir a página de login
-app.get('/', (req, res) => {
-    // Destruir a sessão do usuário ao acessar a página de login
-    // req.session.destroy(err => {
-    //     if (err) {
-    //         console.error('Erro ao destruir sessão:', err);
-    //         res.status(500).send('Erro ao destruir sessão');
-    //     } else {
-    //         // Redirecionar para a página de login
-    //         res.sendFile(path.join(__dirname, '../index.html'));
-    //     }
-    // });
-
-    if (req.session.usuario) {
-        return res.redirect('/paginaInicial'); // Se já estiver autenticado, redireciona
-    }
-    res.sendFile(path.join(__dirname, './index.html'));
-    console.log(path.join(__dirname, './index.html'));
-
-});
-
-// ------------------TESTE------------------
-
-// Configurar sessão
-app.use(session({
-    store: new pgSession({
-        conString: process.env.DATABASE_URL,
-        createTableIfMissing: true // Cria a tabela se não existir
-    }),
-    secret: 'seu-segredo',
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24// Sessão válida por 1 dia
-    }
-}));
-
 // Criar tabela de usuários se não existir
 const criarTabelaUsuario = async () => {
     await sql`
@@ -164,9 +153,8 @@ const criarTabelaUsuario = async () => {
 criarTabelaUsuario();
 
 // Rota para processar o formulário de login
-app.post('/', async (req, res) => {
+app.post('/login', async (req, res) => {
     const { email, senha } = req.body;
-    console.log('Dados recebidos FORM:', [email, senha]);
 
     try {
         // Consulta SQL para verificar se o usuário existe no banco de dados
@@ -174,11 +162,8 @@ app.post('/', async (req, res) => {
             SELECT * FROM usuario WHERE email = ${email} AND senha = ${senha};
         `;
 
-        console.log('Dados recebidos SQL:', [email, senha]);
-
         if (result.length === 0) {
-            console.log('Erro: Nenhum usuário encontrado.');
-            res.redirect('/');
+            return res.redirect('/login');
         }
         // Usuário autenticado com sucesso
         req.session.name = result[0].nome;
@@ -188,59 +173,31 @@ app.post('/', async (req, res) => {
             email: result[0].email,
             senha: result[0].senha
         }
-        console.log('result:', result);
-        console.log('result:', req.session.cookie);
-
 
         req.session.save(err => {
             if (err) {
                 console.error('❌ Erro ao salvar sessão:', err);
-                return res.redirect('/');
+                return res.redirect('/login');
             }
 
-            console.log('✅ Sessão salva com sucesso:', req.session);
+            console.log('✅ Sessão salva com sucesso');
             res.redirect('/paginaInicial');
         });
     } catch (err) {
         console.log('Erro ao autenticar usuário: ', err);
-        res.redirect('/');
+        res.redirect('/login');
     }
-});
-app.get('/session-debug', (req, res) => {
-    if (!req.session.usuario) {
-        req.session.usuario = { nome: "Teste", email: "teste@email.com" };
-        req.session.save();
-    }
-    res.json(req.session);
-});
-app.get('/debug-sessions', async (req, res) => {
-    const store = req.sessionStore;
-
-    store.all((err, sessions) => {
-        if (err) {
-            console.error('❌ Erro ao buscar sessões:', err);
-            return res.json({ erro: 'Erro ao buscar sessões' });
-        }
-
-        console.log('🔍 Todas as sessões:', sessions);
-        res.json(sessions);
-    });
 });
 
 // Função para verificar se o usuário está autenticado
 // Middleware para verificar se o usuário está autenticado
 const verificarAutenticacao = (req, res, next) => {
-    console.log('🔍 Verificando autenticação...');
-    console.log('Sessão atual:', req.session);
-
-    if (req.session.usuario) {
-        console.log('✅ Usuário autenticado:', req.session.usuario);
-        next();
-    } else {
-        console.log('❌ Usuário NÃO autenticado, redirecionando...');
-        res.redirect('/');
+    if (req.session && req.session.usuario) {
+        return next();
     }
+    res.redirect('/login');
 };
+
 // Rota para exibir a página de cadastro
 app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, './cadastro.html'));
@@ -258,7 +215,7 @@ app.post('/cadastro', async (req, res) => {
         `;
 
         console.log(`Usuário registrado: ${nome}, ${email}, ${senha}`);
-        res.redirect('/');
+        res.redirect('/login');
     } catch (err) {
         console.error('Erro ao cadastrar usuário:', err);
         res.redirect('/cadastro');
@@ -898,10 +855,11 @@ app.get('/logout', (req, res) => {
         }
         else {
             // Redirecione o usuário de volta para a página de login
-            res.redirect('/');
+            res.redirect('/login');
         }
     });
 });
+
 // Iniciar o servidor
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);

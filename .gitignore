@@ -9,11 +9,9 @@ yarn-error.log
 /build
 
 # Ambiente de desenvolvimento
-/.env
 /.vscode/
 .idea/
 
 # Sistema operacional
 .DS_Store
 Thumbs.db
-.vercel
