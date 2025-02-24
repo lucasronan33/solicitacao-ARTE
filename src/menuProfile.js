@@ -5,10 +5,11 @@ const menuProfileText = document.querySelector('#menuProfile-text');
 const logout = document.querySelector('.logout');
 const settings = document.querySelector('.settings');
 document.addEventListener('click', (e) => {
-    if (!menuProfile.contains(e.target) && !imgProfileUser.contains(e.target) && menuProfile.style.display == 'flex') {
-        menuProfile.style.display = 'none';
-    } else {
+    if (imgProfileUser.contains(e.target) &&
+        menuProfile.style.display == 'none') {
         menuProfile.style.display = 'flex';
+    } else {
+        menuProfile.style.display = 'none';
     }
 })
 
