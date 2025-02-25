@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/src/css/style-settings.css">
+    <!-- <link rel="stylesheet" href="/src/css/style.css"> -->
+    <title>Configurações de conta</title>
+</head>
+
+<body>
+
+    <div class="body">
+        <img src="./img/logo-showmais.svg">
+        <div class="corpo" id="corpo">
+            <form action="/settingsAcount" method="POST">
+                <div class="formulario-login-cadastro">
+                    <h1 id="titulo-login-cadastro">Configuração de conta</h1><br>
+
+                    <div class="profileUser">
+
+                        <div class="profileUser-img">
+                            <img src="/img/profileUser.png" alt="profileUser">
+                        </div>
+                    </div><br>
+                    <span class="span">
+                        <div class="aviso"></div>
+                        <div class="aviso-texto">
+                            Lembre-se, é de extrema importância que o E-mail e Senha de cadastro
+                            sejam
+                            os mesmos
+                            utilizados no
+                            dominio de E-mail ShowMais (@showmais.com)
+                        </div>
+                    </span><br>
+                    <div class="estilo-botao" id="div-nome">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" required><br>
+                    </div><br>
+
+                    <div class="estilo-botao" id="div-email">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" autocomplete="on" required><br>
+                    </div><br><br>
+
+                    <div class="estilo-botao" id="div-senha-atual">
+                        <label for="senha-atual">Senha atual:</label>
+
+                        <div class="input-senha">
+                            <input type="password" id="senha-atual" name="senha-atual" required><br>
+                            <div class="mostrar-senha">
+                                <img src="./img/olho-fechado.png" class="fundoChk">
+                            </div>
+                        </div>
+
+                    </div><br>
+                    <div class="estilo-botao" id="div-nova-senha">
+                        <label for="nova-senha">Nova senha:</label>
+
+                        <div class="input-senha">
+                            <input type="password" id="nova-senha" name="nova-senha" required><br>
+                            <div class="mostrar-senha">
+                                <img src="./img/olho-fechado.png" class="fundoChk">
+                            </div>
+                        </div>
+
+                    </div><br>
+                    <div class="estilo-botao" id="div-confirmar-senha">
+                        <label for="confirmar-senha">Confirmar nova senha:</label>
+
+                        <div class="input-senha">
+                            <input type="password" id="confirmar-senha" name="confirmar-senha" required><br>
+                            <div class="mostrar-senha">
+                                <img src="./img/olho-fechado.png" class="fundoChk">
+                            </div>
+                        </div>
+
+                    </div><br>
+                    <div class="buttons">
+                        <button type="submit" class="btn-salvar"><text>Salvar</text></button>
+                        <button id="btn-voltar">
+                            <a href="/paginaInicial">Voltar</a>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <text id="slogan">A GENTE DA SHOW NO QUE FAZ!</text>
+    </div>
+
+    <script src="./src/settingsAcount.js"></script>
+</body>
+
+</html>
