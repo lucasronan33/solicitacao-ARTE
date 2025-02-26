@@ -15,27 +15,27 @@
         <img src="./img/logo-showmais.svg">
         <div class="corpo" id="corpo">
             <form action="/settingsAcount" method="POST">
-                <div class="formulario-login-cadastro">
-                    <h1 id="titulo-login-cadastro">Configuração de conta</h1><br>
+                <h1 id="titulo-login-cadastro">Configuração de conta</h1><br>
 
-                    <div class="profileUser">
-
-                        <div class="profileUser-img">
-                            <img src="/img/profileUser.png" alt="profileUser">
-                        </div>
+                <div class="profileUser">
+                    <div class="profileUser-img">
+                        <img src="/img/profileUser.png" alt="profileUser">
+                    </div>
                     </div><br>
+                <div class="form-settings">
+                
+                    <span class="span">
+                        <div class="aviso"></div>
+                        <div class="aviso-texto">
+                            Lembre-se, é de extrema importância
+                            que o E-mail e Senha
+                            sejam
+                            os mesmos
+                            utilizados no
+                            dominio de E-mail ShowMais (@showmais.com)
+                        </div>
+                    </span><br><br>
                     <div class="card1">
-                        <span class="span">
-                            <div class="aviso"></div>
-                            <div class="aviso-texto">
-                                Lembre-se, é de extrema importância
-                                que o E-mail e Senha
-                                sejam
-                                os mesmos
-                                utilizados no
-                                dominio de E-mail ShowMais (@showmais.com)
-                            </div>
-                        </span><br>
                         <div class="estilo-botao" id="div-nome">
                             <label for="nome">Nome:</label>
                             <input type="text" id="nome" name="nome" required><br>
@@ -94,15 +94,34 @@
                                 <option value="acabamento">Operador de Acabamento</option>
                             </select>
                         </div><br>
-                    </div>
-                    <div class="buttons">
-                        <button id="btn-voltar">
-                            <a href="/paginaInicial">Voltar</a>
-                        </button>
-                        <button type="submit" class="btn-salvar"><text>Salvar</text></button>
-                    </div>
+<div class="estilo-botao">
+    <label for="sex">
+        Sexo:
+    </label>
+    <div class="radio">
+        <div class="slct-sexo">
+            <input type="radio" name="slct-sexo" id="masculino" value="masculino">
+            <label for="masculino">
+                Masculino
+            </label>
+        </div>
+        <div class="slct-sexo">
+            <input type="radio" name="slct-sexo" id="feminino" value="feminino">
+            <label for="feminino">
+                Feminino
+            </label>
+        </div>
+    </div>
+</div>
+</div><!--FIM CARD2-->
+</div>
+<div class="buttons">
+    <button id="btn-voltar">
+        <a href="/paginaInicial">Voltar</a>
+    </button>
+    <button type="submit" class="btn-salvar"><text>Salvar</text></button>
+</div>
 
-                </div>
             </form>
         </div>
         <text id="slogan">A GENTE DA SHOW NO QUE FAZ!</text>

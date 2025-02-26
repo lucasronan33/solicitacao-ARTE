@@ -1,16 +1,19 @@
-:root {
+:root
+{
     --fundo-topo: #b8b0d7;
     --fundo-baixo: #9184be;
     --cor-fonte1: #2d2c4f;
     --cor-fonte2: #625fa8;
 }
 
-@font-face {
+@font-face
+{
     font-family: "Gotham Bold";
     src: url(/fonts/Gotham\ Bold.otf);
 }
 
-* {
+*
+{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -18,49 +21,58 @@
     transition: 0.3s;
 }
 
-body {
+body
+{
     background-color: #fff !important;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    .body {
+    .body
+    {
         display: flex;
         flex-direction: column;
         align-items: center;
         color: var(--cor-fonte1);
 
-        img {
+        img
+        {
             width: 30vh;
             margin-top: 3vh;
         }
 
-        .corpo {
+        .corpo
+        {
             width: 60%;
             margin-top: 3vh;
+            display: flex;
             background-color: var(--cor-fonte2);
             border-radius: 2vh / 2vh;
             box-shadow: 0 2vw 2vw 0 var(--cor-fonte1);
 
-            .formulario-login-cadastro {
-                height: fit-content;
-                display: flexbox;
-                /* flex-direction: column; */
+            form
+            {
+                display: flex;
+                flex-direction: column;
                 align-items: center;
-                justify-content: center;
 
-                h1 {
+                h1
+                {
                     margin-top: 2vh;
+                    margin-inline: 2vh;
                     cursor: default;
                 }
 
-                .profileUser {
-                    .profileUser-img {
+                .profileUser
+                {
+                    .profileUser-img
+                    {
                         width: 10vw;
                         height: 10vw;
 
-                        img {
+                        img
+                        {
                             width: 100%;
                             height: 100%;
                             margin: 0;
@@ -69,134 +81,231 @@ body {
                     }
                 }
 
-                .card1 {
-                    max-width: 50%;
+                .form-settings
+                {
+                    height: fit-content;
                     display: flex;
-                    flex-direction: column;
-                    align-items: center;
+                    /* align-items: center; */
                     justify-content: center;
+                    flex-wrap: wrap;
 
-                    .span {
+                    .span
+                    {
                         width: 80%;
                         height: fit-content;
+                        margin-block: 1vh;
                         padding-block: 2%;
                         grid-area: aviso;
                         background-color: rgba(255, 20, 20, 0.714);
                         color: #660000 !important;
-                        font-size: small;
+                        font-size: x-small;
                         border-radius: 2vh /2vh;
                         display: flex;
                         align-items: center;
                         cursor: default;
                         justify-content: space-evenly;
 
-                        .aviso {
+                        .aviso
+                        {
                             width: 6vh;
                             height: 6vh;
-                            margin-left: 2%;
                             background: url(/img/icone-aviso.svg);
                             background-size: contain;
                             background-repeat: no-repeat;
                         }
 
-                        .aviso-texto {
+                        .aviso-texto
+                        {
                             width: calc(100% - 10vh);
                             text-align: center;
                         }
                     }
+                    .card1
+                    {
+                        max-width: 50%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: space-evenly;
 
-                    .estilo-botao {
-                        input {
-                            width: 100%;
-                            height: 55%;
-                            background-color: rgba(255, 255, 255, 0);
-                            border: 0;
-                            outline: 0;
-                            text-align: center;
-                            font-size: 12pt;
-                            color: #fff;
-                            transition: 0.4s linear;
-                        }
 
-                        .input-senha {
-                            width: 100%;
-                            height: 55%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-
-                            input {
-                                height: 100%;
-                                border-bottom-right-radius: 2vh;
+                        .estilo-botao
+                        {
+                            input
+                            {
+                                width: 100%;
+                                height: 55%;
+                                background-color: rgba(255, 255, 255, 0);
+                                border: 0;
+                                outline: 0;
+                                text-align: center;
+                                font-size: 12pt;
+                                color: #fff;
+                                transition: 0.4s linear;
                             }
 
-                            .mostrar-senha {
-                                width: 10%;
-                                height: 100%;
-                                background-color: var(--fundo-baixo);
+                            .input-senha
+                            {
+                                width: 100%;
+                                height: 55%;
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
-                                cursor: pointer;
 
-                                img {
-                                    max-width: 70%;
-                                    margin: 0;
+                                input
+                                {
+                                    height: 100%;
+                                    border-bottom-right-radius: 2vh;
                                 }
 
-                                input {
-                                    display: none;
+                                .mostrar-senha
+                                {
+                                    width: 10%;
+                                    height: 100%;
+                                    background-color: var(--fundo-baixo);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+
+                                    img
+                                    {
+                                        max-width: 70%;
+                                        margin: 0;
+                                    }
+
+                                    input
+                                    {
+                                        display: none;
+                                    }
                                 }
+                            }
+
+                            input:hover
+                            {
+                                background-color: var(--cor-fonte1);
                             }
                         }
 
-                        input:hover {
-                            background-color: var(--cor-fonte1);
+                        /*---FIM ESTILO BOTAO---*/
+                    }
+
+                    /*---FIM CARD1---*/
+
+                    .card2
+                    {
+                        width: 40%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+
+                        .estilo-botao
+                        {
+                            select
+                            {
+                                width: 100%;
+                                height: 55%;
+                                background-color: var(--fundo-baixo);
+                                color: #fff;
+                                text-align: center;
+                                outline: 0;
+                                border: 0;
+                                appearance: none;
+                                transition: 0.4s linear;
+
+                                &:hover
+                                {
+                                    background-color: var(--cor-fonte1);
+                                }
+
+                                option
+                                {
+                                    background-color: var(--fundo-topo);
+                                    color: #fff;
+                                }
+                            }
+
+                            .radio
+                            {
+                                width: 100%;
+                                height: 55%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+
+                                .slct-sexo
+                                {
+                                    width: 50%;
+                                    height: 100%;
+                                    display: flex;
+                                    justify-content: center;
+                                    color: #fff;
+
+                                    &:hover{
+                                        background-color: var(--cor-fonte1);
+                                    }
+
+                                    label
+                                    {
+                                        width: fit-content;
+                                        height: 100%;
+                                        background: none;
+                                        cursor: pointer;
+                                    }
+                                    input
+                                    {
+                                        height: 100%;
+                                        margin-right: 5%;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
                         }
                     }
 
-                    /*---FIM ESTILO BOTAO---*/
+                    /*---FIM CARD2---*/
                 }
 
-                /*---FIM CARD1---*/
+                /*---FIM FORMULARIO LOGIN CADASTRO---*/
             }
 
-            /*---FIM FORMULARIO LOGIN CADASTRO---*/
+            /*---FIM CORPO---*/
+
+            #slogan
+            {
+                width: 100%;
+                text-align: center;
+                font-size: 3vw;
+                margin-block: 5vh;
+                color: var(--cor-fonte1);
+                background: linear-gradient(to right,
+                        var(--fundo-topo),
+                        var(--fundo-baixo));
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                cursor: default;
+            }
+
+            /*---FIM SLOGAN---*/
         }
 
-        /*---FIM CORPO---*/
-
-        #slogan {
-            width: 100%;
-            text-align: center;
-            font-size: 3vw;
-            margin-block: 5vh;
-            color: var(--cor-fonte1);
-            background: linear-gradient(to right,
-                    var(--fundo-topo),
-                    var(--fundo-baixo));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: default;
-        }
-
-        /*---FIM SLOGAN---*/
+        /*---FIM .BODY---*/
     }
-
-    /*---FIM .BODY---*/
 }
 
 /*---FIM BODY---*/
 
-.estilo-botao {
+.estilo-botao
+{
     width: 80%;
     height: 10vh;
     background-color: var(--fundo-baixo);
     border-radius: 2vh / 2vh;
     overflow: hidden;
 
-    label {
+    label
+    {
         width: 100%;
         height: 45%;
         background-color: var(--fundo-topo);
@@ -206,20 +315,23 @@ body {
     }
 }
 
-.buttons {
+.buttons
+{
     width: 80%;
     margin-block: 5vh;
     display: flex;
     align-items: center;
     justify-content: space-around;
 
-    #btn-voltar {
+    #btn-voltar
+    {
         background: none;
         border: 0.1vw solid var(--cor-fonte1);
         color: var(--cor-fonte1);
     }
 
-    button {
+    button
+    {
         width: 10vw;
         height: 5vh;
         display: flex;
@@ -236,7 +348,8 @@ body {
         white-space: nowrap;
         padding: 0 1vw;
 
-        a {
+        a
+        {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -244,7 +357,8 @@ body {
             color: inherit;
         }
 
-        &:hover {
+        &:hover
+        {
             border: 0.1vw solid var(--cor-fonte1);
             box-shadow: 0 0 1vw 0vw var(--cor-fonte1);
         }
