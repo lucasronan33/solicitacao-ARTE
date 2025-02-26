@@ -21,9 +21,9 @@
                     <div class="profileUser-img">
                         <img src="/img/profileUser.png" alt="profileUser">
                     </div>
-                    </div><br>
+                </div><br>
                 <div class="form-settings">
-                
+
                     <span class="span">
                         <div class="aviso"></div>
                         <div class="aviso-texto">
@@ -38,19 +38,22 @@
                     <div class="card1">
                         <div class="estilo-botao" id="div-nome">
                             <label for="nome">Nome:</label>
-                            <input type="text" id="nome" name="nome" required><br>
+                            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" maxlength="255"
+                                required><br>
                         </div><br>
 
                         <div class="estilo-botao" id="div-email">
                             <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" autocomplete="on" required><br>
+                            <input type="email" id="email" name="email" placeholder="Digite seu email" autocomplete="on"
+                                maxlength="255" required><br>
                         </div><br><br>
 
                         <div class="estilo-botao" id="div-senha-atual">
                             <label for="senha-atual">Senha atual:</label>
 
                             <div class="input-senha">
-                                <input type="password" id="senha-atual" name="senha-atual" required><br>
+                                <input type="password" id="senha-atual" name="senha-atual"
+                                    placeholder="Digite sua senha atual" maxlength="255" required><br>
                                 <div class="mostrar-senha">
                                     <img src="./img/olho-fechado.png" class="fundoChk" alt='Mostrar senha'>
                                 </div>
@@ -61,7 +64,8 @@
                             <label for="nova-senha">Nova senha:</label>
 
                             <div class="input-senha">
-                                <input type="password" id="nova-senha" name="nova-senha" required><br>
+                                <input type="password" id="nova-senha" name="nova-senha"
+                                    placeholder="Digite sua nova senha" maxlength="255" required><br>
                                 <div class="mostrar-senha">
                                     <img src="./img/olho-fechado.png" class="fundoChk" alt='Mostrar senha'>
                                 </div>
@@ -72,7 +76,8 @@
                             <label for="confirmar-senha">Confirmar nova senha:</label>
 
                             <div class="input-senha">
-                                <input type="password" id="confirmar-senha" name="confirmar-senha" required><br>
+                                <input type="password" id="confirmar-senha" name="confirmar-senha"
+                                    placeholder="Confirme sua nova senha" maxlength="255" required><br>
                                 <div class="mostrar-senha">
                                     <img src="./img/olho-fechado.png" class="fundoChk" alt='Mostrar senha'>
                                 </div>
@@ -94,33 +99,33 @@
                                 <option value="acabamento">Operador de Acabamento</option>
                             </select>
                         </div><br>
-<div class="estilo-botao">
-    <label for="sex">
-        Sexo:
-    </label>
-    <div class="radio">
-        <div class="slct-sexo">
-            <input type="radio" name="slct-sexo" id="masculino" value="masculino">
-            <label for="masculino">
-                Masculino
-            </label>
-        </div>
-        <div class="slct-sexo">
-            <input type="radio" name="slct-sexo" id="feminino" value="feminino">
-            <label for="feminino">
-                Feminino
-            </label>
-        </div>
-    </div>
-</div>
-</div><!--FIM CARD2-->
-</div>
-<div class="buttons">
-    <button id="btn-voltar">
-        <a href="/paginaInicial">Voltar</a>
-    </button>
-    <button type="submit" class="btn-salvar"><text>Salvar</text></button>
-</div>
+                        <div class="estilo-botao">
+                            <label for="sex">
+                                Sexo:
+                            </label>
+                            <div class="radio">
+                                <div class="slct-sexo">
+                                    <input type="radio" name="slct-sexo" id="masculino" value="masculino">
+                                    <label for="masculino">
+                                        Masculino
+                                    </label>
+                                </div>
+                                <div class="slct-sexo">
+                                    <input type="radio" name="slct-sexo" id="feminino" value="feminino">
+                                    <label for="feminino">
+                                        Feminino
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--FIM CARD2-->
+                </div>
+                <div class="buttons">
+                    <button id="btn-voltar">
+                        <a href="/paginaInicial">Voltar</a>
+                    </button>
+                    <button type="submit" class="btn-salvar"><text>Salvar</text></button>
+                </div>
 
             </form>
         </div>

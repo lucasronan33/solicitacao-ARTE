@@ -1,19 +1,16 @@
-:root
-{
+:root {
     --fundo-topo: #b8b0d7;
     --fundo-baixo: #9184be;
     --cor-fonte1: #2d2c4f;
     --cor-fonte2: #625fa8;
 }
 
-@font-face
-{
+@font-face {
     font-family: "Gotham Bold";
     src: url(/fonts/Gotham\ Bold.otf);
 }
 
-*
-{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -21,29 +18,25 @@
     transition: 0.3s;
 }
 
-body
-{
+body {
     background-color: #fff !important;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    .body
-    {
+    .body {
         display: flex;
         flex-direction: column;
         align-items: center;
         color: var(--cor-fonte1);
 
-        img
-        {
+        img {
             width: 30vh;
             margin-top: 3vh;
         }
 
-        .corpo
-        {
+        .corpo {
             width: 60%;
             margin-top: 3vh;
             display: flex;
@@ -51,28 +44,23 @@ body
             border-radius: 2vh / 2vh;
             box-shadow: 0 2vw 2vw 0 var(--cor-fonte1);
 
-            form
-            {
+            form {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
 
-                h1
-                {
+                h1 {
                     margin-top: 2vh;
                     margin-inline: 2vh;
                     cursor: default;
                 }
 
-                .profileUser
-                {
-                    .profileUser-img
-                    {
+                .profileUser {
+                    .profileUser-img {
                         width: 10vw;
                         height: 10vw;
 
-                        img
-                        {
+                        img {
                             width: 100%;
                             height: 100%;
                             margin: 0;
@@ -81,16 +69,14 @@ body
                     }
                 }
 
-                .form-settings
-                {
+                .form-settings {
                     height: fit-content;
                     display: flex;
                     /* align-items: center; */
                     justify-content: center;
                     flex-wrap: wrap;
 
-                    .span
-                    {
+                    .span {
                         width: 80%;
                         height: fit-content;
                         margin-block: 1vh;
@@ -105,8 +91,7 @@ body
                         cursor: default;
                         justify-content: space-evenly;
 
-                        .aviso
-                        {
+                        .aviso {
                             width: 6vh;
                             height: 6vh;
                             background: url(/img/icone-aviso.svg);
@@ -114,14 +99,13 @@ body
                             background-repeat: no-repeat;
                         }
 
-                        .aviso-texto
-                        {
+                        .aviso-texto {
                             width: calc(100% - 10vh);
                             text-align: center;
                         }
                     }
-                    .card1
-                    {
+
+                    .card1 {
                         max-width: 50%;
                         display: flex;
                         flex-direction: column;
@@ -129,10 +113,8 @@ body
                         justify-content: space-evenly;
 
 
-                        .estilo-botao
-                        {
-                            input
-                            {
+                        .estilo-botao {
+                            input {
                                 width: 100%;
                                 height: 55%;
                                 background-color: rgba(255, 255, 255, 0);
@@ -144,22 +126,19 @@ body
                                 transition: 0.4s linear;
                             }
 
-                            .input-senha
-                            {
+                            .input-senha {
                                 width: 100%;
                                 height: 55%;
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
 
-                                input
-                                {
+                                input {
                                     height: 100%;
                                     border-bottom-right-radius: 2vh;
                                 }
 
-                                .mostrar-senha
-                                {
+                                .mostrar-senha {
                                     width: 10%;
                                     height: 100%;
                                     background-color: var(--fundo-baixo);
@@ -168,21 +147,18 @@ body
                                     justify-content: center;
                                     cursor: pointer;
 
-                                    img
-                                    {
+                                    img {
                                         max-width: 70%;
                                         margin: 0;
                                     }
 
-                                    input
-                                    {
+                                    input {
                                         display: none;
                                     }
                                 }
                             }
 
-                            input:hover
-                            {
+                            input:hover {
                                 background-color: var(--cor-fonte1);
                             }
                         }
@@ -192,17 +168,14 @@ body
 
                     /*---FIM CARD1---*/
 
-                    .card2
-                    {
+                    .card2 {
                         width: 40%;
                         display: flex;
                         flex-direction: column;
                         align-items: center;
 
-                        .estilo-botao
-                        {
-                            select
-                            {
+                        .estilo-botao {
+                            select {
                                 width: 100%;
                                 height: 55%;
                                 background-color: var(--fundo-baixo);
@@ -213,47 +186,42 @@ body
                                 appearance: none;
                                 transition: 0.4s linear;
 
-                                &:hover
-                                {
+                                &:hover {
                                     background-color: var(--cor-fonte1);
                                 }
 
-                                option
-                                {
-                                    background-color: var(--fundo-topo);
+                                option {
+                                    background-color: var(--cor-fonte1);
                                     color: #fff;
                                 }
                             }
 
-                            .radio
-                            {
+                            .radio {
                                 width: 100%;
                                 height: 55%;
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
 
-                                .slct-sexo
-                                {
+                                .slct-sexo {
                                     width: 50%;
                                     height: 100%;
                                     display: flex;
                                     justify-content: center;
                                     color: #fff;
 
-                                    &:hover{
+                                    &:hover {
                                         background-color: var(--cor-fonte1);
                                     }
 
-                                    label
-                                    {
+                                    label {
                                         width: fit-content;
                                         height: 100%;
                                         background: none;
                                         cursor: pointer;
                                     }
-                                    input
-                                    {
+
+                                    input {
                                         height: 100%;
                                         margin-right: 5%;
                                         cursor: pointer;
@@ -271,8 +239,7 @@ body
 
             /*---FIM CORPO---*/
 
-            #slogan
-            {
+            #slogan {
                 width: 100%;
                 text-align: center;
                 font-size: 3vw;
@@ -296,16 +263,14 @@ body
 
 /*---FIM BODY---*/
 
-.estilo-botao
-{
+.estilo-botao {
     width: 80%;
     height: 10vh;
     background-color: var(--fundo-baixo);
     border-radius: 2vh / 2vh;
     overflow: hidden;
 
-    label
-    {
+    label {
         width: 100%;
         height: 45%;
         background-color: var(--fundo-topo);
@@ -313,25 +278,28 @@ body
         align-items: center;
         justify-content: center;
     }
+
+    input {
+        &::placeholder {
+            color: var(--cor-fonte1);
+        }
+    }
 }
 
-.buttons
-{
+.buttons {
     width: 80%;
     margin-block: 5vh;
     display: flex;
     align-items: center;
     justify-content: space-around;
 
-    #btn-voltar
-    {
+    #btn-voltar {
         background: none;
         border: 0.1vw solid var(--cor-fonte1);
         color: var(--cor-fonte1);
     }
 
-    button
-    {
+    button {
         width: 10vw;
         height: 5vh;
         display: flex;
@@ -348,8 +316,7 @@ body
         white-space: nowrap;
         padding: 0 1vw;
 
-        a
-        {
+        a {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -357,8 +324,7 @@ body
             color: inherit;
         }
 
-        &:hover
-        {
+        &:hover {
             border: 0.1vw solid var(--cor-fonte1);
             box-shadow: 0 0 1vw 0vw var(--cor-fonte1);
         }
