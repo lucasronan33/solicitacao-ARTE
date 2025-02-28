@@ -91,7 +91,8 @@
                     <div class="card2">
                         <div class="estilo-botao" id="div-cargo">
                             <label for="cargo">Cargo:</label>
-                            <select name="cargo" id="cargo">
+                            <select name="cargo" id="cargo" required>
+                                <option value="default">--- Selecione seu cargo ---</option>
                                 <option value="gerente">Gerente</option>
                                 <option value="vendedor">Vendedor</option>
                                 <option value="orcamentista">Orçamentista</option>
@@ -123,10 +124,10 @@
                         </div><br><br>
                         <div class="estilo-botao ctt-comercial">
                             <label for="ctt-comercial">
-                                Contato comercial:
+                                Whatsapp comercial:
                             </label>
-                            <input type="text" id="ctt-comercial" name="ctt-comercial" placeholder="Digite seu Whatsapp comercial"
-                                maxlength="255"><br>
+                            <input type="text" id="ctt-comercial" name="ctt-comercial"
+                                placeholder="Ex. : DDD 99999-9999" maxlength="20"><br>
                         </div>
                     </div><!--FIM CARD2-->
                 </div>
@@ -143,6 +144,7 @@
     </div>
 
     <script src="./src/settingsAcount.js"></script>
+    <script src="./src/inputContato.js"></script>
 </body>
 
 </html>
