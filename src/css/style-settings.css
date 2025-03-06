@@ -38,7 +38,7 @@ body {
 
         .corpo {
             width: 60%;
-            margin-top: 3vh;
+            margin-block: 3vh;
             display: flex;
             background-color: var(--cor-fonte2);
             border-radius: 2vh / 2vh;

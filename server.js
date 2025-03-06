@@ -230,6 +230,10 @@ app.get('/paginaInicial', verificarAutenticacao, (req, res) => {
 
 });
 
+app.get('/accountSettings', verificarAutenticacao, (req, res) => {
+    res.sendFile(path.join(__dirname, './accountSettings.html'));
+})
+
 
 // Rota para exibir a página inicial, protegida pelo middleware de autenticação
 app.get('/orcamento', verificarAutenticacao, (req, res) => {
