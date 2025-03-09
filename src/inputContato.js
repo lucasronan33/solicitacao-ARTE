@@ -1,38 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-    const inputCttComercial = document.getElementById('ctt-comercial')
+const inputCttComercial = document.getElementById('ctt-comercial')
 
 
-    inputCttComercial.addEventListener('input', function (event) {
+inputCttComercial.addEventListener('input', (e) => {
+    let valorInput = inputCttComercial.value
+    let tamanhoInput = valorInput.length
 
-        let valorInput = inputCttComercial.value
-        let valor = inputCttComercial.value.replace(/\D/g, '');
+    console.log('vInput: ' + valorInput);
+    console.log('tInput: ' + tamanhoInput);
+    console.log(e);
 
-        let valorSalvo
+    if (e.inputType == 'insertText') {
+        inputCttComercial.value = valorInput.replace(/[^0-9]/g, '')
 
-        console.log(valorInput.length);
-        console.log(valorInput);
+        if (tamanhoInput >= 0 && tamanhoInput <= 4) {
 
-        this.addEventListener('keypress', function (e) {
-            console.log('e:', e);
-            console.log('e.key:', e.key);
+            inputCttComercial.value = '+55 (' + valorInput
+        }
+    }
 
-            if (e.key !== 'backspace') {
-                if (valorInput.length >= 0 && valorInput.length <= 4) {
-                    console.log(inputCttComercial.value);
-                    console.log(inputCttComercial);
-
-                    inputCttComercial.value = '+55 (' + valorInput
-                }
-                if (valorInput.length >= 7 && valorInput.length <= 11) {
-                    inputCttComercial.value = valorInput + ') 9 '
-                }
-                if (valorInput.length >= 15 && valorInput.length <= 15) {
-                    inputCttComercial.value = valorInput + '-'
-                }
-
-                console.log('valorInput', valorInput);
-            }
-        })
-    })
 })
