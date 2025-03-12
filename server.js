@@ -253,6 +253,9 @@ const upload = multer({
     }
 });
 
+app.get('/settingsAcount', verificarAutenticacao, (req, res) => {
+    res.sendFile(path.join(__dirname, './settingsAcount.html'));
+});
 
 // Rota para lidar com o envio de e-mails
 app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async (req, res) => {
