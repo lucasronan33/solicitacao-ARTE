@@ -230,6 +230,20 @@ app.get('/paginaInicial', verificarAutenticacao, (req, res) => {
 
 });
 
+app.get('/accountSettings', verificarAutenticacao, (req, res) => {
+    res.sendFile(path.join(__dirname, './accountSettings.html'));
+})
+
+app.get('/saveSettings', verificarAutenticacao, async (req, res) => {
+    try {
+        const inserirColuna = await sql`ALTER TABLE usuario ADD COLUMN IF NOT EXISTS id SERIAL PRIMARY KEY`;
+        res.redirect('/accountSettings');
+    } catch (error) {
+        console.log('Erro:', error);
+        res.redirect('/accountSettings');
+    }
+})
+
 
 // Rota para exibir a página inicial, protegida pelo middleware de autenticação
 app.get('/orcamento', verificarAutenticacao, (req, res) => {
