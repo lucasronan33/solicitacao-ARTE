@@ -230,18 +230,69 @@ app.get('/paginaInicial', verificarAutenticacao, (req, res) => {
 
 });
 
-app.get('/accountSettings', verificarAutenticacao, (req, res) => {
-    res.sendFile(path.join(__dirname, './accountSettings.html'));
-})
+// Função para consultar o banco de dados
+async function consultaDB(req, e) {
+    if (e == '*') {
+        return await sql`SELECT * FROM usuario WHERE nome = ${req.session.name}`;
+    } else {
+        return await sql`SELECT ${sql(e)} FROM usuario WHERE nome = ${req.session.name}`;
+    }
+}
+// ----------------------------------------------
 
-app.get('/saveSettings', verificarAutenticacao, async (req, res) => {
+app.get('/useraccountSettings', verificarAutenticacao, async (req, res) => {
     try {
-        const inserirColuna = await sql`ALTER TABLE usuario add COLUMN nome, add COLUMN email, add COLUMN senha`;
-        res.redirect('/accountSettings');
+        const consulta = await consultaDB(req, '*');
+        res.json(consulta)
     } catch (error) {
         res.redirect(`/erroSettings?er=${encodeURI(error.message)}`);
     }
 })
+
+app.get('/accountSettings', verificarAutenticacao, (req, res) => {
+
+    res.sendFile(path.join(__dirname, './accountSettings.html'));
+})
+
+app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
+    try {
+        // Filtra apenas os valores válidos (não vazios ou nulos)
+        const dadosValidados = Object.fromEntries(
+            Object.entries(req.body).filter(([_, valor]) => valor?.trim())
+        );
+
+        // Se não houver dados válidos, não execute o UPDATE
+        if (Object.keys(dadosValidados).length === 0) {
+            throw new Error('Nenhum dado válido para atualizar.');
+        }
+
+        console.log('dadosValidados:', dadosValidados);
+        console.log('req.session.name:', req.session.name);
+
+        // 🔹 Criando a query corretamente com pares "chave = valor"
+        const setQuery = Object.keys(dadosValidados)
+            .map((chave) => `${chave} = ${req.body[chave]}`)
+            .join(', ');
+        const valores = Object.values(dadosValidados);
+
+        console.log('setQuery:', sql`${sql[(setQuery)]}`);
+        console.log(sql`UPDATE usuario SET ${setQuery} WHERE nome = ${req.session.name}`);
+        console.log('Valores:', [...valores, req.session.name]);
+
+        // 🔹 Executando a query corretamente
+        const resultado = await sql`
+            UPDATE usuario
+            SET ${setQuery}
+            WHERE nome = ${req.session.name};
+        `;
+
+        console.log('Resultado do UPDATE:', resultado);
+        res.redirect('/accountSettings');
+    } catch (error) {
+        console.error('Erro ao atualizar:', error);
+        res.redirect(`/erroSettings?er=${encodeURIComponent(error.message)}`);
+    }
+});
 
 app.get('/erroSettings', (req, res) => {
     const msgErro = req.query.er || "Erro desconhecido"
@@ -269,10 +320,6 @@ const upload = multer({
     limits: {
         fileSize: 10 * 1024 * 1024 // limite de 10MB por arquivo
     }
-});
-
-app.get('/settingsAcount', verificarAutenticacao, (req, res) => {
-    res.sendFile(path.join(__dirname, './settingsAcount.html'));
 });
 
 // Rota para lidar com o envio de e-mails
