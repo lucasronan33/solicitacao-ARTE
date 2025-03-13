@@ -236,12 +236,16 @@ app.get('/accountSettings', verificarAutenticacao, (req, res) => {
 
 app.get('/saveSettings', verificarAutenticacao, async (req, res) => {
     try {
-        const inserirColuna = await sql`ALTER TABLE usuario ADD COLUMN IF NOT EXISTS id SERIAL PRIMARY KEY`;
+        const inserirColuna = await sql`ALTER TABLE usuario add COLUMN nome, add COLUMN email, add COLUMN senha`;
         res.redirect('/accountSettings');
     } catch (error) {
-        console.log('Erro:', error);
-        res.redirect('/accountSettings');
+        res.redirect(`/erroSettings?er=${encodeURI(error.message)}`);
     }
+})
+
+app.get('/erroSettings', (req, res) => {
+    const msgErro = req.query.er || "Erro desconhecido"
+    res.json({ erro: msgErro })
 })
 
 
