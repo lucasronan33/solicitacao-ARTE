@@ -12,6 +12,8 @@ const app = express();
 const port = 3000;
 const { Dropbox } = require("dropbox");
 const { neon } = require("@neondatabase/serverless");
+const e = require('express');
+const { log } = require('console');
 const sql = neon(connectionString);
 const pgSession = require('connect-pg-simple')(session);
 
@@ -255,44 +257,36 @@ app.get('/accountSettings', verificarAutenticacao, (req, res) => {
 })
 
 app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
-    try {
-        // Filtra apenas os valores válidos (não vazios ou nulos)
-        const dadosValidados = Object.fromEntries(
-            Object.entries(req.body).filter(([_, valor]) => valor?.trim())
-        );
 
-        // Se não houver dados válidos, não execute o UPDATE
-        if (Object.keys(dadosValidados).length === 0) {
-            throw new Error('Nenhum dado válido para atualizar.');
+    try {
+        let dados = {}
+        function validarDados() {
+            for (const key in req.body) {
+                req.body[key].trim()
+
+                if (req.body[key] && req.body[key].trim() !== '') {
+                    dados[key] = key
+                }
+                log('key: ', key)
+                log('req.body[key]: ', req.body[key])
+            }
         }
 
-        console.log('dadosValidados:', dadosValidados);
-        console.log('req.session.name:', req.session.name);
+        validarDados()
+        // if (dados.length !== 0) {
+        //     dados = JSON.parse(req.body.dados)
+        // }
 
-        // 🔹 Criando a query corretamente com pares "chave = valor"
-        const setQuery = Object.keys(dadosValidados)
-            .map((chave) => `${chave} = ${req.body[chave]}`)
-            .join(', ');
-        const valores = Object.values(dadosValidados);
+        // console.log(dados);
 
-        console.log('setQuery:', sql`${sql[(setQuery)]}`);
-        console.log(sql`UPDATE usuario SET ${setQuery} WHERE nome = ${req.session.name}`);
-        console.log('Valores:', [...valores, req.session.name]);
+        // const inserirColuna = await sql`UPDATE usuario SET ${sql(dados)} WHERE nome = ${req.session.name}`;
+        // console.log('inserirColuna: ', inserirColuna);
 
-        // 🔹 Executando a query corretamente
-        const resultado = await sql`
-            UPDATE usuario
-            SET ${setQuery}
-            WHERE nome = ${req.session.name};
-        `;
-
-        console.log('Resultado do UPDATE:', resultado);
         res.redirect('/accountSettings');
     } catch (error) {
-        console.error('Erro ao atualizar:', error);
-        res.redirect(`/erroSettings?er=${encodeURIComponent(error.message)}`);
+        res.redirect(`/erroSettings?er=${encodeURI(error.message)}`);
     }
-});
+})
 
 app.get('/erroSettings', (req, res) => {
     const msgErro = req.query.er || "Erro desconhecido"
