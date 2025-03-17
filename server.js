@@ -105,17 +105,17 @@ const dbx = new Dropbox({
 });
 
 // Teste de conexão com Dropbox
-(async () => {
-    try {
-        const response = await dbx.usersGetCurrentAccount();
-        console.log("✅ Conectado ao Dropbox!");
-    } catch (error) {
-        console.error("❌ Erro na conexão com o Dropbox:", error);
-        if (error.status === 401) {
-            console.error("⚠ Token de acesso inválido ou expirado");
-        }
-    }
-})();
+// (async () => {
+//     try {
+//         const response = await dbx.usersGetCurrentAccount();
+//         console.log("✅ Conectado ao Dropbox!");
+//     } catch (error) {
+//         console.error("❌ Erro na conexão com o Dropbox:", error);
+//         if (error.status === 401) {
+//             console.error("⚠ Token de acesso inválido ou expirado");
+//         }
+//     }
+// })();
 
 // const storage = multer.memoryStorage(); // Armazena arquivos na memória antes do envio
 // const upload = multer({ storage });
@@ -255,36 +255,34 @@ app.get('/accountSettings', verificarAutenticacao, (req, res) => {
 
     res.sendFile(path.join(__dirname, './accountSettings.html'));
 })
-
 app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
-
     try {
-        let dados = {}
-        function validarDados() {
-            for (const key in req.body) {
-                req.body[key].trim()
+        const tableName = 'usuario';
+        const columnValues = req.body;
+        const condition = `nome = '${req.session.name}'`;
 
-                if (req.body[key] && req.body[key].trim() !== '') {
-                    dados[key] = key
-                }
-                log('key: ', key)
-                log('req.body[key]: ', req.body[key])
+        if (Object.keys(columnValues).length > 0) {
+            const setClause = Object.keys(columnValues)
+                .map((key, index) => `${key} = $${index + 1}`)
+                .join(', ');
+            const values = Object.values(columnValues);
+
+            const query = `UPDATE ${tableName} SET ${setClause} WHERE ${condition}`;
+            try {
+                const res = await sql(query, values);
+                console.log('Linha atualizada, redirecionando \n /accountSettings');
+                console.log('Row updated:', res.rowCount);
+                res.redirect('/accountSettings');
+            } catch (err) {
+                console.error('Error updating row:', err);
             }
+        } else {
+            log('teste')
         }
 
-        validarDados()
-        // if (dados.length !== 0) {
-        //     dados = JSON.parse(req.body.dados)
-        // }
-
-        // console.log(dados);
-
-        // const inserirColuna = await sql`UPDATE usuario SET ${sql(dados)} WHERE nome = ${req.session.name}`;
-        // console.log('inserirColuna: ', inserirColuna);
-
-        res.redirect('/accountSettings');
     } catch (error) {
-        res.redirect(`/erroSettings?er=${encodeURI(error.message)}`);
+        console.log(error);
+        res.redirect(`/erroSettings?er=${encodeURI(error)}`);
     }
 })
 
