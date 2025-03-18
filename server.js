@@ -233,23 +233,41 @@ app.get('/paginaInicial', verificarAutenticacao, (req, res) => {
 });
 
 // Função para consultar o banco de dados
-async function consultaDB(req, e) {
-    if (e == '*') {
-        return await sql`SELECT * FROM usuario WHERE nome = ${req.session.name}`;
-    } else {
-        return await sql`SELECT ${sql(e)} FROM usuario WHERE nome = ${req.session.name}`;
-    }
+async function consultaDB(e, condicional) {
+
+    return await sql(`SELECT ${e} FROM usuario WHERE ${condicional}`);
+
 }
 // ----------------------------------------------
 
+// fetch('/getUserData')
+//     .then(response => response.json())
+//     .then(data => {
+//         document.getElementById('name').value = data.name;
+//         document.getElementById('email').value = data.email;
+//         // preencher outros campos conforme necessário
+//     })
+//     .catch(error => console.error('Erro ao preencher o formulário:', error));
+
+
 app.get('/useraccountSettings', verificarAutenticacao, async (req, res) => {
     try {
-        const consulta = await consultaDB(req, '*');
+        const consulta = await consultaDB('*', `nome = '${req.session.name}'`);
         res.json(consulta)
     } catch (error) {
         res.redirect(`/erroSettings?er=${encodeURI(error.message)}`);
     }
 })
+
+app.get('/getUserData', async (req, res) => {
+    try {
+        const response = await consultaDB('nome, email, cargo, sexo, wppcomercial', `nome = '${req.session.name}'`);
+        res.json(response); // Enviar os dados do usuário para o front-end
+    } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+        res.status(500).send('Erro ao buscar dados do usuário');
+    }
+});
 
 app.get('/accountSettings', verificarAutenticacao, (req, res) => {
 
@@ -261,17 +279,36 @@ app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
         const columnValues = req.body;
         const condition = `nome = '${req.session.name}'`;
 
-        if (Object.keys(columnValues).length > 0) {
+        const valoresFiltrados = Object.values(columnValues).filter(value => value.trim() !== '');
+        log('valoresFiltrados: ', valoresFiltrados)
+
+        if (Object.values(valoresFiltrados).length > 0) {
             const setClause = Object.keys(columnValues)
+                .filter(key => columnValues[key].trim() !== '')
                 .map((key, index) => `${key} = $${index + 1}`)
                 .join(', ');
-            const values = Object.values(columnValues);
+
+            const values = Object.keys(columnValues)
+                .filter(key => columnValues[key].trim() !== '')
+                .map(key => columnValues[key]);
+
+            log('chaves: ', values)
+            log('valores: ', setClause)
 
             const query = `UPDATE ${tableName} SET ${setClause} WHERE ${condition}`;
+
+            if (setClause.includes('nome')) {
+                log('nome sessao: ', req.session.name)
+                log('nome: ', columnValues['nome'])
+                req.session.name = columnValues['nome'];
+                log('nome: ', req.session.name)
+            }
+            log('query: ', query)
             try {
-                const res = await sql(query, values);
+                const resposta = await sql(query, values);
                 console.log('Linha atualizada, redirecionando \n /accountSettings');
-                console.log('Row updated:', res.rowCount);
+                console.log('Row updated:', resposta.parameterizedQuery);
+
                 res.redirect('/accountSettings');
             } catch (err) {
                 console.error('Error updating row:', err);
