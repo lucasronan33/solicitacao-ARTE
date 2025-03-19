@@ -240,16 +240,6 @@ async function consultaDB(e, condicional) {
 }
 // ----------------------------------------------
 
-// fetch('/getUserData')
-//     .then(response => response.json())
-//     .then(data => {
-//         document.getElementById('name').value = data.name;
-//         document.getElementById('email').value = data.email;
-//         // preencher outros campos conforme necessário
-//     })
-//     .catch(error => console.error('Erro ao preencher o formulário:', error));
-
-
 app.get('/useraccountSettings', verificarAutenticacao, async (req, res) => {
     try {
         const consulta = await consultaDB('*', `nome = '${req.session.name}'`);
@@ -262,7 +252,19 @@ app.get('/useraccountSettings', verificarAutenticacao, async (req, res) => {
 app.get('/getUserData', async (req, res) => {
     try {
         const response = await consultaDB('nome, email, cargo, sexo, wppcomercial', `nome = '${req.session.name}'`);
-        res.json(response); // Enviar os dados do usuário para o front-end
+        if (!response || response.length === 0) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        // 🔹 Pega o primeiro resultado da consulta
+        let userData = response[0];
+
+        // 🔹 Filtra os campos vazios ou null
+        let filteredData = Object.fromEntries(
+            Object.entries(userData).filter(([_, value]) => value !== null && value !== "")
+        );
+
+        res.json(filteredData); // Retorna apenas os dados preenchidos
     } catch (error) {
         console.error('Erro ao buscar dados do usuário:', error);
         res.status(500).send('Erro ao buscar dados do usuário');

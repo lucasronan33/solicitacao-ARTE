@@ -17,3 +17,16 @@ for (const input of senhaInput) {
         }
     })
 }
+
+
+fetch('/getUserData')
+    .then(response => response.json())
+    .then(data => {
+        data.nome && (document.getElementById('nome').value = data.nome);
+        data.email && (document.getElementById('email').value = data.email);
+        data.cargo && (document.getElementById('cargo').value = data.cargo);
+        data.sexo && (document.getElementById('sexo').value = data.sexo);
+        data.wppComercial && (document.getElementById('wppComercial').value = data.wppComercial);
+        // preencher outros campos conforme necessário
+    })
+    .catch(error => console.error('Erro ao preencher o formulário:', error));
