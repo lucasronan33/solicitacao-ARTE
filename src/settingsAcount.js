@@ -25,12 +25,9 @@ fetch('/getUserData')
         data.nome && (document.getElementById('nome').value = data.nome);
         data.email && (document.getElementById('email').value = data.email);
         data.cargo && (document.getElementById('cargo').value = data.cargo);
+        data.sexo && data.sexo == 'F' && (document.getElementById('feminino').checked = true);
+        data.sexo && data.sexo == 'M' && (document.getElementById('masculino').checked = true);
         data.wppcomercial && (document.getElementById('ctt-comercial').value = data.wppcomercial);
-        if (data.sexo && data.sexo == 'M') {
-            document.getElementById('masculino').checked = true;
-        } else if (data.sexo && data.sexo == 'F') {
-            document.getElementById('feminino').checked = true;
-        }
         // preencher outros campos conforme necessário
     })
     .catch(error => console.error('Erro ao preencher o formulário:', error));
