@@ -249,7 +249,7 @@ app.get('/useraccountSettings', verificarAutenticacao, async (req, res) => {
     }
 })
 
-app.get('/getUserData', async (req, res) => {
+app.get('/getUserData', verificarAutenticacao, async (req, res) => {
     try {
         const response = await consultaDB('nome, email, cargo, sexo, wppcomercial', `nome = '${req.session.name}'`);
         if (!response || response.length === 0) {
