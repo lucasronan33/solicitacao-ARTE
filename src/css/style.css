@@ -337,7 +337,7 @@ body {
                 resize: none;
                 transition: 0.5s linear;
 
-                &:hover {
+                &:not(:has(.mostrar-senha,img)):hover {
                     transition: 0.5s linear;
                     background-color: var(--cor-fonte1);
                 }
