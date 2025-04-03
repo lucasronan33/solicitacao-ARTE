@@ -163,8 +163,10 @@ app.post('/login', async (req, res) => {
         const result = await sql`
             SELECT * FROM usuario WHERE email = ${email} AND senha = ${senha};
         `;
+        console.log("Resultado da consulta:", result);
 
-        if (result.length === 0) {
+        if (!result || result.length === 0) {
+            console.log("⚠ Nenhum usuário encontrado.");
             return res.redirect('/login');
         }
         // Usuário autenticado com sucesso
