@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/favicon" type="image/png">
+        <link rel="stylesheet" href="/style-login" type="text/css">
+        <link rel="stylesheet" href="/style" type="text/css">
+        <script src="/src/script.js"></script>
+        <title>Login</title>
+
+
+    </head>
+
+    <body>
+        <div class="body">
+            <img src="/img/logo-showmais.svg">
+            <div class="corpo" id="corpo">
+                <form action="/login" method="POST">
+                    <div class="formulario-login-cadastro">
+                        <h1 id="titulo-login-cadastro">Login</h1><br><br>
+
+                        <span class="span">
+                            <div class="aviso"></div>
+                            <div class="aviso-texto">
+                                Lembre-se, é de extrema importância que o E-mail e Senha de cadastro
+                                sejam
+                                os mesmos
+                                utilizados no
+                                dominio de E-mail ShowMais (@showmais.com)
+                            </div>
+                        </span>
+                        
+                        <div class="estilo-botao" id="div-login">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div><br><br>
+
+                        <div class="estilo-botao" id="div-senha">
+                            <label for="senha">Senha:</label>
+
+                            <div class="input-senha" id="div-entrar">
+                                <input type="password" id="senha" name="senha" required><br>
+                                <div class="mostrar-senha">
+                                    <img src="/img/olho-fechado.png" onclick="ativarChk()" id="fundoChk">
+                                    <input type="checkbox" id="chk-mostrar-senha" onclick="mostrarSenha()">
+                                </div>
+                            </div>
+
+                        </div><br>
+                        <button type="submit" id="div-entrar">Entrar</button>
+                        <button class="link-cadastro div-cadastro">
+                            <a href="/cadastro">cadastre-se</a>
+                    </div>
+                </form>
+            </div>
+            <text id="slogan">A GENTE DA SHOW NO QUE FAZ!</text>
+        </div>
+    </body>
+
+</html>
