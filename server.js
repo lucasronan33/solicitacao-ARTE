@@ -160,36 +160,43 @@ app.post('/login', async (req, res) => {
 
     try {
         // Consulta SQL para verificar se o usuário existe no banco de dados
+        const user = await consultaDB('email', `email = '${email}'`);
+        const pass = await consultaDB('senha', `senha = '${senha}'`);
+
+        console.log('user: ', user, 'pass: ', pass);
+        console.log('user.lenght: ', user.length, '   pass.lenght: ', pass.length);
         const result = await sql`
             SELECT * FROM usuario WHERE email = ${email} AND senha = ${senha};
         `;
         console.log("Resultado da consulta:", result);
 
-        if (!result || result.length === 0) {
-            console.log("⚠ Nenhum usuário encontrado.");
-            return res.redirect('/login');
-        }
-        // Usuário autenticado com sucesso
-        req.session.name = result[0].nome;
+        if (result.length <= 0 && (user || pass)) {
+            throw new Error("⚠ Usuário ou senha incorreto");
+        } else if (result) {
+            // Usuário autenticado com sucesso
+            req.session.name = result[0].nome;
 
-        // Salvar usuário na sessão
-        req.session.usuario = {
-            email: result[0].email,
-            senha: result[0].senha
-        }
-
-        req.session.save(err => {
-            if (err) {
-                console.error('❌ Erro ao salvar sessão:', err);
-                return res.redirect('/login');
+            // Salvar usuário na sessão
+            req.session.usuario = {
+                email: result[0].email,
+                senha: result[0].senha
             }
 
-            console.log('✅ Sessão salva com sucesso');
-            res.redirect('/paginaInicial');
-        });
+            req.session.save(err => {
+                if (err) {
+                    console.error('❌ Erro ao salvar sessão:', err);
+                    return res.redirect('/login');
+                }
+
+                console.log('✅ Sessão salva com sucesso');
+                res.redirect('/paginaInicial');
+            });
+        } else {
+            throw new Error("⚠ Usuário não encontrado");
+        }
     } catch (err) {
         console.log('Erro ao autenticar usuário: ', err);
-        res.redirect('/login');
+        res.status(400).json({ erro: err.message });
     }
 });
 
