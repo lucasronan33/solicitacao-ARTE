@@ -159,46 +159,41 @@ app.post('/login', async (req, res) => {
     const { email, senha } = req.body;
 
     try {
-        // Consulta SQL para verificar se o usuário existe no banco de dados
         const user = await consultaDB('email', `email = '${email}'`);
         const pass = await consultaDB('senha', `senha = '${senha}'`);
 
-        console.log('user: ', user, 'pass: ', pass);
-        console.log('user.lenght: ', user.length, '   pass.lenght: ', pass.length);
         const result = await sql`
             SELECT * FROM usuario WHERE email = ${email} AND senha = ${senha};
         `;
-        console.log("Resultado da consulta:", result);
 
-        if (result.length <= 0 && (user || pass)) {
-            throw new Error("⚠ Usuário ou senha incorreto");
-        } else if (result) {
-            // Usuário autenticado com sucesso
+        if (result.length <= 0 && (user.length > 0 || pass.length > 0)) {
+            // Email existe, mas senha errada OU vice-versa
+            return res.status(400).json({ erro: "⚠ Seu e-mail ou senha estão incorretos." });
+        } else if (result.length > 0) {
+            // Login OK
             req.session.name = result[0].nome;
-
-            // Salvar usuário na sessão
             req.session.usuario = {
                 email: result[0].email,
                 senha: result[0].senha
-            }
+            };
 
             req.session.save(err => {
                 if (err) {
                     console.error('❌ Erro ao salvar sessão:', err);
-                    return res.redirect('/login');
+                    return res.status(500).json({ erro: "Erro interno ao salvar sessão." });
                 }
 
-                console.log('✅ Sessão salva com sucesso');
-                res.redirect('/paginaInicial');
+                return res.status(200).json({ sucesso: true }); // <- Aqui evitamos redirect no backend
             });
         } else {
-            throw new Error("⚠ Usuário não encontrado");
+            return res.status(400).json({ erro: "⚠ Usuário não encontrado." });
         }
     } catch (err) {
-        console.log('Erro ao autenticar usuário: ', err);
-        res.status(400).json({ erro: err.message });
+        console.error('Erro ao autenticar usuário:', err);
+        return res.status(500).json({ erro: "Erro interno no servidor." });
     }
 });
+
 
 // Função para verificar se o usuário está autenticado
 // Middleware para verificar se o usuário está autenticado
