@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/style-login" type="text/css">
     <link rel="stylesheet" href="/style" type="text/css">
     <script src="/src/script.js"></script>
-    <script src="/src/verificacaoLogin.js"></script>
+    <!-- <script src="/src/verificacaoLogin.js"></script> -->
     <title>Login</title>
 
 
@@ -16,7 +16,12 @@
 
 <body>
     <div class="body">
-        <div id="mensagemErro"></div>
+        <div id="mensagemErro">
+            <%if (erro){%>
+                <%=erro%>
+                    <%}else{erro=""}%>
+
+        </div>
         <img src="/img/logo-showmais.svg">
         <div class="corpo" id="corpo">
             <form action="/login" method="POST">

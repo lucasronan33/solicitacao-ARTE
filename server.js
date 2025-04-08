@@ -57,7 +57,7 @@ app.get('/login', (req, res) => {
     if (req.session && req.session.usuario) {
         return res.redirect('/paginaInicial');
     }
-    res.sendFile(path.join(__dirname, './index.html'));
+    res.render('index', { erro: null });
 });
 
 // DEPOIS das rotas, configurar os middlewares static
@@ -141,6 +141,7 @@ const dbx = new Dropbox({
 // fs.writeFileSync(`./teste-${req.file.originalname}`, downloadedBuffer);
 
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname))
 
 // Criar tabela de usuários se não existir
 const criarTabelaUsuario = async () => {
@@ -171,7 +172,7 @@ app.post('/login', async (req, res) => {
         console.log("Resultado da consulta:", result);
 
         if (result.length <= 0 && (user || pass)) {
-            throw new Error("⚠ Usuário ou senha incorreto");
+            throw new Error("Usuário ou senha incorreto");
         } else if (result) {
             // Usuário autenticado com sucesso
             req.session.name = result[0].nome;
@@ -185,18 +186,18 @@ app.post('/login', async (req, res) => {
             req.session.save(err => {
                 if (err) {
                     console.error('❌ Erro ao salvar sessão:', err);
-                    return res.redirect('/login');
+                    throw new Error("Erro interno do servidor");
                 }
 
                 console.log('✅ Sessão salva com sucesso');
                 res.redirect('/paginaInicial');
             });
         } else {
-            throw new Error("⚠ Usuário não encontrado");
+            throw new Error("Usuário não encontrado");
         }
     } catch (err) {
         console.log('Erro ao autenticar usuário: ', err);
-        res.redirect('/erroLogin?er=' + encodeURI(err.message)); // Redireciona para a página de erro com o erro({ erro: err.message });
+        res.status(400).render('index', { erro: err.message }); // Redireciona para a página de erro com o erro({ erro: err.message });
     }
 });
 app.get('/erroLogin', (req, res) => {
