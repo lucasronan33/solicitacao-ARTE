@@ -169,11 +169,14 @@ app.post('/login', async (req, res) => {
         const result = await sql`
             SELECT * FROM usuario WHERE email = ${email} AND senha = ${senha};
         `;
+        console.log("result.length: ", result.length);
         console.log("Resultado da consulta:", result);
 
-        if (result.length <= 0 && (user || pass)) {
+        if (result.length <= 0 && (user && pass).length <= 0) {
+            throw new Error("Usuário não encontrado");
+        } else if (result.length <= 0 && (user || pass).length > 0) {
             throw new Error("Usuário ou senha incorreto");
-        } else if (result) {
+        } else if (result.length > 0) {
             // Usuário autenticado com sucesso
             req.session.name = result[0].nome;
 
@@ -186,14 +189,14 @@ app.post('/login', async (req, res) => {
             req.session.save(err => {
                 if (err) {
                     console.error('❌ Erro ao salvar sessão:', err);
-                    throw new Error("Erro interno do servidor");
+                    throw new Error("Erro ao salvar sessão");
                 }
 
                 console.log('✅ Sessão salva com sucesso');
                 res.redirect('/paginaInicial');
             });
         } else {
-            throw new Error("Usuário não encontrado");
+            throw new Error("Erro interno do servidor");
         }
     } catch (err) {
         console.log('Erro ao autenticar usuário: ', err);
