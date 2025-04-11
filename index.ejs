@@ -22,39 +22,37 @@
                 <div class="formulario-login-cadastro">
                     <h1 id="titulo-login-cadastro">Login</h1><br><br>
 
-                    <%if (erro){%>
+                    <% if (erro){%>
                         <span class="span span-erro">
                             <div class="erro"></div>
                             <div class="erro-texto">
                                 <%=erro%>
                             </div>
                         </span>
-                        <%}else{%>
-                            <%erro=""%>
-                                <%}%>
+                        <% }%> <% setTimeout(()=>{if (erro){erro = null}}, 5000)%>
 
-                                    <div class="estilo-botao" id="div-login">
-                                        <label for="email">Email:</label>
-                                        <input type="email" id="email" name="email" placeholder="email@showmais.com"
-                                            required>
-                                    </div><br><br>
+                            <div class="estilo-botao" id="div-login">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" placeholder="email@showmais.com" required>
+                            </div><br><br>
 
-                                    <div class="estilo-botao" id="div-senha">
-                                        <label for="senha">Senha:</label>
+                            <div class="estilo-botao" id="div-senha">
+                                <label for="senha">Senha:</label>
 
-                                        <div class="input-senha" id="div-entrar">
-                                            <input type="password" id="senha" name="senha"
-                                                placeholder="********************" required><br>
-                                            <div class="mostrar-senha">
-                                                <img src="/img/olho-fechado.png" onclick="ativarChk()" id="fundoChk">
-                                                <input type="checkbox" id="chk-mostrar-senha" onclick="mostrarSenha()">
-                                            </div>
-                                        </div>
+                                <div class="input-senha" id="div-entrar">
+                                    <input type="password" id="senha" name="senha" placeholder="********************"
+                                        required><br>
+                                    <div class="mostrar-senha">
+                                        <img src="/img/logo-fechado.png" onclick="ativarChk()" id="fundoChk">
+                                        <input type="checkbox" id="chk-mostrar-senha" onclick="mostrarSenha()">
+                                    </div>
+                                </div>
 
-                                    </div><br>
-                                    <button type="submit" id="div-entrar">Entrar</button>
-                                    <button class="link-cadastro div-cadastro">
-                                        <a href="/cadastro">cadastre-se</a>
+                            </div><br>
+                            <button type="submit" id="div-entrar">Entrar</button>
+                            <button class="link-cadastro div-cadastro">
+                                <a href="/cadastro">cadastre-se</a>
+                            </button>
                 </div>
             </form>
         </div>
