@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/style-login" type="text/css">
     <link rel="stylesheet" href="/style" type="text/css">
     <script src="/src/script.js"></script>
-    <!-- <script src="/src/verificacaoLogin.js"></script> -->
+    <script src="/src/verificacaoLogin.js"></script>
     <title>Login</title>
 
 
@@ -16,38 +16,45 @@
 
 <body>
     <div class="body">
-        <div id="mensagemErro">
-            <%if (erro){%>
-                <%=erro%>
-                    <%}else{erro=""}%>
-
-        </div>
         <img src="/img/logo-showmais.svg">
         <div class="corpo" id="corpo">
             <form action="/login" method="POST">
                 <div class="formulario-login-cadastro">
                     <h1 id="titulo-login-cadastro">Login</h1><br><br>
 
-                    <div class="estilo-botao" id="div-login">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div><br><br>
-
-                    <div class="estilo-botao" id="div-senha">
-                        <label for="senha">Senha:</label>
-
-                        <div class="input-senha" id="div-entrar">
-                            <input type="password" id="senha" name="senha" required><br>
-                            <div class="mostrar-senha">
-                                <img src="/img/olho-fechado.png" onclick="ativarChk()" id="fundoChk">
-                                <input type="checkbox" id="chk-mostrar-senha" onclick="mostrarSenha()">
+                    <%if (erro){%>
+                        <span class="span span-erro">
+                            <div class="erro"></div>
+                            <div class="erro-texto">
+                                <%=erro%>
                             </div>
-                        </div>
+                        </span>
+                        <%}else{%>
+                            <%erro=""%>
+                                <%}%>
 
-                    </div><br>
-                    <button type="submit" id="div-entrar">Entrar</button>
-                    <button class="link-cadastro div-cadastro">
-                        <a href="/cadastro">cadastre-se</a>
+                                    <div class="estilo-botao" id="div-login">
+                                        <label for="email">Email:</label>
+                                        <input type="email" id="email" name="email" placeholder="email@showmais.com"
+                                            required>
+                                    </div><br><br>
+
+                                    <div class="estilo-botao" id="div-senha">
+                                        <label for="senha">Senha:</label>
+
+                                        <div class="input-senha" id="div-entrar">
+                                            <input type="password" id="senha" name="senha"
+                                                placeholder="********************" required><br>
+                                            <div class="mostrar-senha">
+                                                <img src="/img/olho-fechado.png" onclick="ativarChk()" id="fundoChk">
+                                                <input type="checkbox" id="chk-mostrar-senha" onclick="mostrarSenha()">
+                                            </div>
+                                        </div>
+
+                                    </div><br>
+                                    <button type="submit" id="div-entrar">Entrar</button>
+                                    <button class="link-cadastro div-cadastro">
+                                        <a href="/cadastro">cadastre-se</a>
                 </div>
             </form>
         </div>
