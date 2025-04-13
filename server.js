@@ -83,6 +83,10 @@ app.get('/style-index', (req, res) => {
     res.setHeader('Content-Type', 'text/css');
     res.sendFile(path.join(__dirname, './src/css/style-index.css'));
 });
+app.get('/style-erroSendMail', (req, res) => {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, './src/css/style-erroSendMail.css'));
+});
 
 // Middleware para analisar solicitações JSON
 app.use(bodyParser.json());
@@ -959,7 +963,23 @@ app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async
         res.redirect('/paginaInicial'); // Redireciona de volta para a página inicial
     } catch (error) {
         console.error('Erro ao enviar e-mail:', error);
-        res.status(500).send('Erro ao enviar e-mail: ' + error.message);
+        res.status(500).send(
+            `<head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="icon" href="/img/erro-icon2.png">
+                <link rel="stylesheet" href="/style-erroSendMail">
+                <title>Erro ao enviar e-mail</title>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="erro"></div>
+                    <h1>Erro ao enviar e-mail</h1><br>
+                    <h2> ${error.message}</h2>
+                    <br>Entre em contato com o suporte técnico
+                </div>
+            </body>`
+        );
     }
 });
 
