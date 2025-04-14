@@ -46,6 +46,11 @@ app.use(session({
 }));
 
 // Definir rotas ANTES dos middlewares static
+console.log('views: ', path.join(__dirname));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname))
+
+
 app.get('/', (req, res) => {
     if (req.session && req.session.usuario) {
         return res.redirect('/paginaInicial');
@@ -145,9 +150,6 @@ const dbx = new Dropbox({
 
 // fs.writeFileSync(`./teste-${req.file.originalname}`, downloadedBuffer);
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname))
-
 // Criar tabela de usuários se não existir
 const criarTabelaUsuario = async () => {
     await sql`
@@ -222,9 +224,14 @@ const verificarAutenticacao = (req, res, next) => {
     res.redirect('/login');
 };
 
-// Rota para exibir a página de cadastro
+// Rota para exibir a página de cadastro HTML
+// app.get('/cadastro', (req, res) => {
+//     res.sendFile(path.join(__dirname, './cadastro.html'));
+// });
+
+// Rota para exibir a página de cadastro EJS
 app.get('/cadastro', (req, res) => {
-    res.sendFile(path.join(__dirname, './cadastro.html'));
+    res.render('cadastro', { erro: null })
 });
 
 // Rota para processar o formulário de cadastro
@@ -242,7 +249,7 @@ app.post('/cadastro', async (req, res) => {
         res.redirect('/login');
     } catch (err) {
         console.error('Erro ao cadastrar usuário:', err);
-        res.redirect('/cadastro');
+        res.status(400).render('cadsatro', { erro: 'Erro ao cadastrar usuário: ' + err.message });
     }
 });
 
@@ -977,6 +984,8 @@ app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async
                     <h1>Erro ao enviar e-mail</h1><br>
                     <h2> ${error.message}</h2>
                     <br>Entre em contato com o suporte técnico
+                    <br><br>
+                    <a href="javascript:history.back()">Voltar</a>
                 </div>
             </body>`
         );

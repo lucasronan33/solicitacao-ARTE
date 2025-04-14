@@ -34,6 +34,10 @@
                 background-repeat: no-repeat;
                 background-position: center;
             }
+
+            a {
+                color: #00a2ff;
+            }
         }
     }
 }
