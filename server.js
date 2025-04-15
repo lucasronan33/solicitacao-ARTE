@@ -192,6 +192,8 @@ app.post('/login', async (req, res) => {
                 email: result[0].email,
                 senha: result[0].senha
             }
+            req.session.userID = result[0].id
+            log("req.session.userID: ", req.session.userID);
 
             req.session.save(err => {
                 if (err) {
@@ -256,7 +258,7 @@ app.post('/cadastro', async (req, res) => {
 
 // Rota para exibir a página inicial, protegida pelo middleware de autenticação
 app.get('/paginaInicial', verificarAutenticacao, (req, res) => {
-    res.sendFile(path.join(__dirname, './paginaInicial.html'));
+    res.render('paginaInicial', { nomeUsuario: req.session.name })
     console.log('entrando em /paginaInicial');
 
 });
@@ -271,7 +273,8 @@ async function consultaDB(e, condicional) {
 
 app.get('/useraccountSettings', verificarAutenticacao, async (req, res) => {
     try {
-        const consulta = await consultaDB('*', `nome = '${req.session.name}'`);
+        const consulta = await consultaDB('*', `email = '${req.session.usuario.email}'`);
+        log('consulta: ', consulta)
         res.json(consulta)
     } catch (error) {
         res.redirect(`/erroSettings?er=${encodeURI(error.message)}`);
@@ -280,7 +283,8 @@ app.get('/useraccountSettings', verificarAutenticacao, async (req, res) => {
 
 app.get('/getUserData', verificarAutenticacao, async (req, res) => {
     try {
-        const response = await consultaDB('nome, email, cargo, sexo, wppcomercial', `nome = '${req.session.name}'`);
+        const response = await consultaDB('nome, email, cargo, sexo, wppcomercial', `email = '${req.session.usuario.email}'`);
+        // log('response: ', response)
         if (!response || response.length === 0) {
             return res.status(404).json({ error: 'Usuário não encontrado' });
         }
@@ -301,14 +305,13 @@ app.get('/getUserData', verificarAutenticacao, async (req, res) => {
 });
 
 app.get('/accountSettings', verificarAutenticacao, (req, res) => {
-
-    res.sendFile(path.join(__dirname, './accountSettings.html'));
+    res.render('accountSettings', { savedSettings: null, erro: null })
 })
 app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
     try {
         const tableName = 'usuario';
         const columnValues = req.body;
-        const condition = `nome = '${req.session.name}'`;
+        const condition = `id = ${req.session.userID}`;
 
         const valoresFiltrados = Object.values(columnValues).filter(value => value.trim() !== '');
         log('valoresFiltrados: ', valoresFiltrados)
@@ -336,21 +339,26 @@ app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
             }
             log('query: ', query)
             try {
+                // throw new Error("Erro ao salvar sessão!");
                 const resposta = await sql(query, values);
                 console.log('Linha atualizada, redirecionando \n /accountSettings');
-                console.log('Row updated:', resposta.parameterizedQuery);
+                console.log('Row updated:', resposta);
 
-                res.redirect('/accountSettings');
-            } catch (err) {
-                console.error('Error updating row:', err);
+                res.render('accountSettings', { savedSettings: 'Configurações salvas com sucesso!', erro: null });
+            } catch (erro) {
+                console.error('Error updating row:', erro);
+                if (erro.detail.includes('already exists')) {
+                    log('erroDetalhe: ', erro.detail)
+                    res.status(400).render('accountSettings', { erro: 'Esse email já está sendo utilizado, escolha outro!' });
+                } else {
+                    res.status(400).render('accountSettings', { erro: erro.message });
+                }
             }
-        } else {
-            log('teste')
         }
 
     } catch (error) {
         console.log(error);
-        res.redirect(`/erroSettings?er=${encodeURI(error)}`);
+        res.status(400).render('accountSettings', { erro: erro.message });
     }
 })
 
@@ -365,7 +373,7 @@ app.get('/orcamento', verificarAutenticacao, (req, res) => {
     res.sendFile(path.join(__dirname, './orcamento.html'));
 });
 app.get('/artefinal', verificarAutenticacao, (req, res) => {
-    res.sendFile(path.join(__dirname, './arteFinal.html'));
+    res.render('artefinal', { usuario: req.session.name });
 });
 // app.get('/impr-adesivo', verificarAutenticacao, (req, res) => {
 //     res.sendFile(path.join(__dirname, 'impr-adesivo.html'));

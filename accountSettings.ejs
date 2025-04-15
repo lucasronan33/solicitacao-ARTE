@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/css/style-settings.css">
+  <link rel="icon" href="/img/profileUser.png">
+  <title>Configurações de conta</title>
+</head>
+
+<body>
+
+  <div class="body">
+
+    <%if (erro||savedSettings){%>
+    <div class="savedSettings" <%if (erro!==null){%> style="background-color: darkred;" <%}%>>
+      <%if (erro!==null){ savedSettings=erro%> <div class="erro"></div>
+    <%}%>
+
+      <% if (savedSettings) { %>
+    <text>
+      <%= savedSettings %>
+    </text>
+    <% } %>
+  </div>
+  <script>
+    setTimeout(() => {
+      document.querySelector('.savedSettings').remove()
+    }, 7000);
+  </script>
+  <% } %>
+
+  <img src="./img/logo-showmais.svg">
+  <div class="corpo" id="corpo">
+    <form action="/accountSettings" method="POST">
+      <h1 id="titulo-login-cadastro">Configuração de conta</h1><br>
+
+      <div class="profileUser">
+        <div class="profileUser-img">
+          <div class="img-camera"></div>
+          <div class="img-profileUser">
+          </div>
+        </div>
+      </div><br>
+      <div class="form-settings">
+
+        <span class="span">
+          <div class="aviso"></div>
+          <div class="aviso-texto">
+            Lembre-se, é de extrema importância
+            que o E-mail e Senha
+            sejam
+            os mesmos
+            utilizados no
+            dominio de E-mail ShowMais (@showmais.com)
+          </div>
+        </span><br><br>
+        <div class="card1">
+          <div class="estilo-botao" id="div-nome">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" maxlength="255"><br>
+          </div><br>
+
+          <div class="estilo-botao" id="div-email">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Digite seu email" autocomplete="on" maxlength="255"><br>
+          </div><br><br>
+
+          <div class="estilo-botao" id="div-senha-atual">
+            <label for="senha-atual">Senha atual:</label>
+
+            <div class="input-senha password">
+              <input type="current-password" class="password" id="senha-atual" name="senhaAtual" placeholder="Digite sua senha atual" maxlength="255"><br>
+              <div class="mostrar-senha">
+                <img src="./img/olho-fechado.png" class="fundoChk" alt='Mostrar senha'>
+              </div>
+            </div>
+
+          </div><br>
+          <div class="estilo-botao" id="div-nova-senha">
+            <label for="nova-senha">Nova senha:</label>
+
+            <div class="input-senha password">
+              <input type="new-password" class="password" id="nova-senha" name="novaSenha" placeholder="Digite sua nova senha" maxlength="255"><br>
+              <div class="mostrar-senha">
+                <img src="./img/olho-fechado.png" class="fundoChk" alt='Mostrar senha'>
+              </div>
+            </div>
+
+          </div><br>
+          <div class="estilo-botao" id="div-confirmar-senha">
+            <label for="confirmar-senha">Confirmar nova senha:</label>
+
+            <div class="input-senha password">
+              <input type="new-password" class="password" id="confirmar-senha" name="confirmarSenha" placeholder="Confirme sua nova senha" maxlength="255"><br>
+              <div class="mostrar-senha">
+                <img src="./img/olho-fechado.png" class="fundoChk" alt='Mostrar senha'>
+              </div>
+            </div>
+
+          </div>
+        </div><br>
+        <!--FIM CARD1-->
+
+        <div class="card2">
+          <div class="estilo-botao" id="div-cargo">
+            <label for="cargo">Cargo:</label>
+            <select name="cargo" id="cargo">
+              <option value=" ">--- Selecione seu cargo ---</option>
+              <option value="gerente">Gerente</option>
+              <option value="vendedor">Vendedor</option>
+              <option value="orcamentista">Orçamentista</option>
+              <option value="arte-final">Arte Final</option>
+              <option value="impresso">Impressor</option>
+              <option value="corte">Operador de Corte</option>
+              <option value="acabamento">Operador de Acabamento</option>
+            </select>
+          </div><br>
+
+          <div class="estilo-botao">
+            <label for="sexo">
+              Sexo:
+            </label>
+            <div class="radio">
+              <div class="slct-sexo">
+                <input type="radio" name="sexo" id="masculino" value="M">
+                <label for="masculino">
+                  Masculino
+                </label>
+              </div>
+              <div class="slct-sexo">
+                <input type="radio" name="sexo" id="feminino" value="F">
+                <label for="feminino">
+                  Feminino
+                </label>
+              </div>
+            </div>
+          </div><br><br>
+          <div class="estilo-botao ctt-comercial">
+            <label for="ctt-comercial">
+              Whatsapp comercial:
+            </label>
+            <input type="text" id="ctt-comercial" name="wppComercial" placeholder="Ex. : DDD 99999-9999" maxlength="20"><br>
+          </div>
+        </div>
+        <!--FIM CARD2-->
+      </div>
+      <div class="buttons">
+        <button id="btn-voltar" type="button" onclick="backPage()">
+          Voltar
+        </button>
+        <button type="submit" class="btn-salvar"><text>Salvar</text></button>
+      </div>
+
+    </form>
+  </div>
+  <text id="slogan">A GENTE DA SHOW NO QUE FAZ!</text>
+  </div>
+
+  <script src="./src/settingsAcount.js"></script>
+  <script src="./src/inputContato.js"></script>
+</body>
+
+</html>

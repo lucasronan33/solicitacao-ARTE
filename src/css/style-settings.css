@@ -10,6 +10,28 @@
     src: url(/fonts/Gotham\ Bold.otf);
 }
 
+@keyframes fadeSaveSettings {
+    0% {
+        transform: translateY(-10vh);
+    }
+
+    10% {
+        transform: translateY(0vh);
+    }
+
+    90% {
+        transform: translateY(0vh);
+    }
+
+    99% {
+        transform: translateY(-10vh);
+    }
+
+    100% {
+        display: none;
+    }
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -30,6 +52,29 @@ body {
         flex-direction: column;
         align-items: center;
         color: var(--cor-fonte1);
+
+        .savedSettings {
+            position: fixed;
+            padding: 1vh 10vh;
+            border-radius: 0 0 2vh 2vh;
+            top: 0;
+            background-color: #00b800;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 3s;
+            animation: fadeSaveSettings 5s ease-in forwards;
+
+            .erro {
+                width: 2vh;
+                height: 2vh;
+                margin-right: 2vh;
+                background: url(/img/erro-icon.png);
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+        }
 
         img {
             width: 30vh;
