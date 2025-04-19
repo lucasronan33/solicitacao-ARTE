@@ -36,7 +36,7 @@ for (const input of senhaInput) {
     })
 }
 
-console.log(window.history.go(-1));
+// console.log(window.history.go(-1));
 
 const url = window.location.href;
 // async function backPage() {
