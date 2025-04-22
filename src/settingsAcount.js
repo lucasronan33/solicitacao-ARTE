@@ -35,17 +35,3 @@ for (const input of senhaInput) {
         }
     })
 }
-
-// console.log(window.history.go(-1));
-
-const url = window.location.href;
-// async function backPage() {
-//     if (window.location.href.includes('accountSettings')) {
-//         console.log('window.localtion.href: ', window.location.href);
-//         window.history.go(-1);
-//         dispatchEvent(new Event('voltaPagina'))
-//     }
-// }
-// addEventListener('voltaPagina', async () => {
-//     await backPage()
-// })
