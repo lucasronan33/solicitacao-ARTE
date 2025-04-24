@@ -373,7 +373,7 @@ app.get('/orcamento', verificarAutenticacao, (req, res) => {
     res.render('orcamento', { usuario: req.session.name })
 });
 app.get('/artefinal', verificarAutenticacao, (req, res) => {
-    res.render('artefinal', { usuario: req.session.name });
+    res.render('arteFinal', { usuario: req.session.name });
 });
 // app.get('/impr-adesivo', verificarAutenticacao, (req, res) => {
 //     res.sendFile(path.join(__dirname, 'impr-adesivo.html'));
