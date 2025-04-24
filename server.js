@@ -370,7 +370,7 @@ app.get('/erroSettings', verificarAutenticacao, (req, res) => {
 
 // Rota para exibir a página inicial, protegida pelo middleware de autenticação
 app.get('/orcamento', verificarAutenticacao, (req, res) => {
-    res.sendFile(path.join(__dirname, './orcamento.html'));
+    res.render('orcamento', { usuario: req.session.name })
 });
 app.get('/artefinal', verificarAutenticacao, (req, res) => {
     res.render('artefinal', { usuario: req.session.name });

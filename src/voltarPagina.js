@@ -1,19 +1,23 @@
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     console.log('pagina carregada')
 
-    if (localStorage.getItem())
+    let JSONvoltar = JSON.parse(localStorage.getItem('JSONurl'))
 
-        const btnVoltar = document.querySelector('#btn-voltar');
+    const btnVoltar = document.querySelector('#btn-voltar');
     const url = window.location.href;
 
-    btnVoltar.addEventListener('click', criarJSON)
+    btnVoltar.addEventListener('click', function () {
+        if (!JSONvoltar) {
+            criarJSON()
+        }
+        window.location.href = JSONvoltar.url
+    })
 
     function criarJSON() {
         let jsonURL = JSON.stringify({
-            voltar: true,
             url: url
         })
-        localStorage.setItem('JSONvoltar', jsonURL)
+        localStorage.setItem('JSONurl', jsonURL)
         console.log('JSON criado: ', jsonURL)
     }
 })

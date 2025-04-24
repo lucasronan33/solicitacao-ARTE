@@ -1,23 +1,41 @@
-//CHECKBOX MOSTRAR SENHA INPUT
-function mostrarSenha() {
-  var senhaInput = document.getElementById("senha");
-  var trocarImg = document.querySelector('.mostrar-senha')
-  if (senhaInput.type === "password") {
-    senhaInput.type = "text";
-    trocarImg.innerHTML = `<img src="./img/olho-aberto.png" onclick="ativarChk()" id="fundoChk">`
-  } else {
-    senhaInput.type = "password";
-    trocarImg.innerHTML = `<img src="./img/olho-fechado.png" onclick="ativarChk()" id="fundoChk">`
-  }
-};
-
-function ativarChk() {
-  mostrarSenha()
-}
-
-
-//DIMENSÕES FORMATADA
 document.addEventListener('DOMContentLoaded', function () {
+
+  if (!localStorage.getItem('JSONurl')) {
+    (function criarJSON() {
+      let jsonURL = JSON.stringify({ url: window.location.href })
+      localStorage.setItem('JSONurl', jsonURL)
+      console.log('JSON criado: ', jsonURL)
+    })()
+  }
+  if (localStorage.getItem('JSONurl')) {
+    let JSONurl = JSON.parse(localStorage.getItem('JSONurl'))
+    console.log('JSONurl: ', JSONurl)
+
+    if (JSONurl.url !== window.location.href) {
+      JSONurl.url = window.location.href
+      localStorage.setItem('JSONurl', JSON.stringify(JSONurl))
+      console.log('local: ', JSONurl)
+    }
+  }
+  //CHECKBOX MOSTRAR SENHA INPUT
+  function mostrarSenha() {
+    var senhaInput = document.getElementById("senha");
+    var trocarImg = document.querySelector('.mostrar-senha')
+    if (senhaInput.type === "password") {
+      senhaInput.type = "text";
+      trocarImg.innerHTML = `<img src="./img/olho-aberto.png" onclick="ativarChk()" id="fundoChk">`
+    } else {
+      senhaInput.type = "password";
+      trocarImg.innerHTML = `<img src="./img/olho-fechado.png" onclick="ativarChk()" id="fundoChk">`
+    }
+  };
+
+  function ativarChk() {
+    mostrarSenha()
+  }
+
+
+  //DIMENSÕES FORMATADA
 
   const inputMedidas = document.querySelectorAll('.dimensions');
   inputMedidas.forEach(function (inputMedidas) {
@@ -86,47 +104,46 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
-});
 
+  // Função para obter a data atual no formato yyyy-mm-dd
+  function getDataAtualFormatada() {
+    var dataAtual = new Date();
+    var ano = String(dataAtual.getFullYear()).padStart(1, "0");
+    var mes = String(dataAtual.getMonth() + 1).padStart(2, "0");
+    var dia = String(dataAtual.getDate()).padStart(2, "0");
+    return `${ano}-${mes}-${dia}`;
+  }
 
-// Função para obter a data atual no formato yyyy-mm-dd
-function getDataAtualFormatada() {
-  var dataAtual = new Date();
-  var ano = String(dataAtual.getFullYear()).padStart(1, "0");
-  var mes = String(dataAtual.getMonth() + 1).padStart(2, "0");
-  var dia = String(dataAtual.getDate()).padStart(2, "0");
-  return `${ano}-${mes}-${dia}`;
-}
+  // Função para definir o atributo min de todos os inputs de data como a data atual
+  function bloquearDatasAnteriores() {
+    var inputsData = document.querySelectorAll('input[type="date"]');
+    var dataAtual = getDataAtualFormatada();
 
-// Função para definir o atributo min de todos os inputs de data como a data atual
-function bloquearDatasAnteriores() {
-  var inputsData = document.querySelectorAll('input[type="date"]');
-  var dataAtual = getDataAtualFormatada();
+    inputsData.forEach(function (input) {
+      input.min = dataAtual;
+    });
+  }
 
-  inputsData.forEach(function (input) {
-    input.min = dataAtual;
-  });
-}
+  // Chama a função ao carregar a página
+  window.addEventListener("DOMContentLoaded", bloquearDatasAnteriores);
 
-// Chama a função ao carregar a página
-window.addEventListener("DOMContentLoaded", bloquearDatasAnteriores);
+  //HABILITAR FORMULARIOS
+  var seletor = document.querySelectorAll('.habilitar-form')
 
-//HABILITAR FORMULARIOS
-var seletor = document.querySelectorAll('.habilitar-form')
+  for (let i = 0; i < seletor.length; i++) {
 
-for (let i = 0; i < seletor.length; i++) {
+    seletor[i].addEventListener('click', click)
+    const visivel = seletor[i].nextElementSibling
 
-  seletor[i].addEventListener('click', click)
-  const visivel = seletor[i].nextElementSibling
+    function click() {
 
-  function click() {
+      if (visivel.style.display != 'none') {
+        visivel.style.display = 'none'
+      } else {
+        visivel.style.display = 'block'
 
-    if (visivel.style.display != 'none') {
-      visivel.style.display = 'none'
-    } else {
-      visivel.style.display = 'block'
+      }
 
     }
-
   }
-}
+});
