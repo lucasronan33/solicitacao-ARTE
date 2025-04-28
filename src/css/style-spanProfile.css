@@ -1,0 +1,15 @@
+.divFundoSpan {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    .spanImageProfile {
+        width: 75vw;
+        height: 70vh;
+        margin-top: 10vh;
+        background-color: blueviolet;
+    }
+}
