@@ -27,13 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const span = document.createElement('span')
         span.classList.add('spanImageProfile')
         divFundoSpan.appendChild(span)
+
+        divFundoSpan.addEventListener('click', (event) => {
+            if (event.target === divFundoSpan) {
+                divFundoSpan.remove()
+            }
+        })
     }
 
 
 })
-
-
-
 
 function log(e) {
     console.log(e)
