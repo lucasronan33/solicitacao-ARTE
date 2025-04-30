@@ -1,8 +1,15 @@
 .divFundoSpan {
     width: 100%;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
+    /*garante que fique acima de
+    todos outros elementos*/
+    z-index: 999;
+    /*puxa todos os eventos para essa div,
+    bloqueando os eventos das divs abaixo*/
+    pointer-events: all;
     display: flex;
-    /* align-items: center; */
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.2);
 
