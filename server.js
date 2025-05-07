@@ -16,6 +16,20 @@ const e = require('express');
 const { log } = require('console');
 const sql = neon(connectionString);
 const pgSession = require('connect-pg-simple')(session);
+const cloudinary = require('cloudinary').v2
+const streamifier = require('streamifier')
+
+app.use(express.urlencoded({ extended: true, limit: '10mb' }))
+app.use(express.json({ limit: '10mb' }))
+
+// Configure o multer para armazenar em memória em vez do disco
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 10 * 1024 * 1024 // limite de 10MB por arquivo
+    }
+});
+
 
 // Teste de conexão com Banco de Dados
 if (!connectionString) {
@@ -44,6 +58,13 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true
+})
 
 // Definir rotas ANTES dos middlewares static
 console.log('views: ', path.join(__dirname));
@@ -307,12 +328,31 @@ app.get('/getUserData', verificarAutenticacao, async (req, res) => {
 app.get('/accountSettings', verificarAutenticacao, (req, res) => {
     res.render('accountSettings', { savedSettings: null, erro: null })
 })
-app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
+app.post('/accountSettings', verificarAutenticacao, upload.single('profileImage'), async (req, res) => {
     try {
+        //tratamento da foto de perfil do usuario
+        let imgUrl = null
+        if (req.file) {
+            const buffer = req.file.buffer
+            imgUrl = await new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream({
+                    folder: 'profile_images'
+                }, (error, result) => {
+                    if (error) return reject(error)
+                    resolve(result.secure_url)
+                })
+                streamifier.createReadStream(buffer).pipe(stream)
+            })
+            console.log('Imagem enviada: ', imgUrl)
+        }
+
+        //tratamento do formulario com dados do usuario
         const tableName = 'usuario';
-        const columnValues = req.body;
+        const columnValues = { ...req.body };
+        delete columnValues.profileImage
         const condition = `id = ${req.session.userID}`;
 
+        log('req.body: ', columnValues)
         const valoresFiltrados = Object.values(columnValues).filter(value => value.trim() !== '');
         log('valoresFiltrados: ', valoresFiltrados)
 
@@ -325,6 +365,7 @@ app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
             const values = Object.keys(columnValues)
                 .filter(key => columnValues[key].trim() !== '')
                 .map(key => columnValues[key]);
+
 
             log('chaves: ', values)
             log('valores: ', setClause)
@@ -358,7 +399,7 @@ app.post('/accountSettings', verificarAutenticacao, async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(400).render('accountSettings', { erro: erro.message });
+        res.status(400).render('accountSettings', { erro: error.message });
     }
 })
 
@@ -381,14 +422,6 @@ app.get('/artefinal', verificarAutenticacao, (req, res) => {
 // app.get('/impr-lona', verificarAutenticacao, (req, res) => {
 //     res.sendFile(path.join(__dirname, 'impr-lona.html'));
 // });
-
-// Configure o multer para armazenar em memória em vez do disco
-const upload = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-        fileSize: 10 * 1024 * 1024 // limite de 10MB por arquivo
-    }
-});
 
 // Rota para lidar com o envio de e-mails
 app.post('/send-email', verificarAutenticacao, upload.array('attachment'), async (req, res) => {

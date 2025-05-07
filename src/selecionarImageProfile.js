@@ -9,24 +9,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const divCamera = document.querySelector('.img-camera')
         const imageProfile = document.querySelector('.imgProfile')
-        log(imageProfile)
-        
+
         divCamera.addEventListener('click', () => {
             const criarInput = document.createElement('input')
             criarInput.type = 'file'
             criarInput.accept = 'image/*'
-    
+
             criarInput.addEventListener('change', async (event) => {
-                const arquivoURL = URL.createObjectURL(event.target.files[0])
-                log(arquivoURL)
-                log(imageProfile.style.backgroudImage)
-                imageProfile.style.backgroundImage = `url(${arquivoURL})`
-                log(imageProfile.style.backgroudImage)
+                const arquivoURL = event.target.files[0]
+                if (!arquivoURL) return
+                imageProfile.style.backgroundImage = `url(${URL.createObjectURL(arquivoURL)})`
+                const base64 = await blobToBase64(arquivoURL)
+
+                document.querySelector('input[name="profileImage"]').value = base64
             })
-    
-            criarInput.click()  
+
+            criarInput.click()
         })
     })
+
+    function blobToBase64(blob) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result)
+            reader.onerror = reject
+            reader.readAsDataURL(blob)
+        })
+    }
 
     function criarSpan() {
         const divFundoSpan = document.createElement('span')
@@ -37,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.createElement('div')
         const divImageProfile = document.createElement('div')
         const divCamera = document.createElement('div')
-        const imageProfile=document.createElement('div')
+        const imageProfile = document.createElement('div')
         const divButtons = document.createElement('div')
         const btnSave = document.createElement('button')
         const btnCancel = document.createElement('button')
@@ -51,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         divButtons.className = 'buttons'
         btnSave.classList.add('btnButtons');
         btnCancel.classList.add('btnButtons');
+        btnSave.id = 'btnSave'
         btnCancel.id = 'btnCancel'
 
         btnSave.innerText = 'Salvar'
@@ -59,16 +69,22 @@ document.addEventListener('DOMContentLoaded', () => {
         divFundoSpan.appendChild(span)
         span.appendChild(container)
         container.append(divImageProfile, divButtons)
-        divImageProfile.append(divCamera,imageProfile)
+        divImageProfile.append(divCamera, imageProfile)
         divButtons.append(btnSave, btnCancel)
 
+        btnSave.addEventListener('click', () => {
+            profileUser.style.backgroundImage = document.querySelector('.imgProfile').style.backgroundImage
+            document.querySelector('.divFundoSpan').remove()
+        })
 
         divFundoSpan.addEventListener('click', (event) => {
-            if (event.target === divFundoSpan||event.target===btnCancel) {
+            if (event.target === divFundoSpan || event.target === btnCancel) {
                 divFundoSpan.remove()
             }
         })
     }
+
+
 
 
 })

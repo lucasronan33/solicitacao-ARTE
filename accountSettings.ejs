@@ -34,14 +34,14 @@
 
   <img src="./img/logo-showmais.svg">
   <div class="corpo" id="corpo">
-    <form action="/accountSettings" method="POST">
+    <form action="/accountSettings" method="POST" enctype="multipart/form-data">
       <h1 id="titulo-login-cadastro">Configuração de conta</h1><br>
 
       <div class="profileUser">
         <div class="profileUser-img">
           <div class="img-camera"></div>
-          <div class="img-profileUser">
-          </div>
+          <div class="img-profileUser"></div>
+          <input type="hidden" name="profileImage">
         </div>
       </div><br>
       <div class="form-settings">
