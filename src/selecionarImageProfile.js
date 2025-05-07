@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const divImageProfile = document.querySelector('.img-camera')
-    const profileUser = document.querySelector('.profileUser')
+    const profileUser = document.querySelector('.img-profileUser')
     const divBody = document.querySelector('.body')
 
     divImageProfile.addEventListener('click', () => {
@@ -14,28 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const criarInput = document.createElement('input')
             criarInput.type = 'file'
             criarInput.accept = 'image/*'
+            criarInput.name = 'profileImage'
+            criarInput.style.display='none'
 
             criarInput.addEventListener('change', async (event) => {
                 const arquivoURL = event.target.files[0]
                 if (!arquivoURL) return
                 imageProfile.style.backgroundImage = `url(${URL.createObjectURL(arquivoURL)})`
-                const base64 = await blobToBase64(arquivoURL)
 
-                document.querySelector('input[name="profileImage"]').value = base64
+                const form = document.querySelector('form')
+                const verificarInput = form.querySelector('input[name="profileImage"]')
+                if(verificarInput)verificarInput.remove()
+                form.appendChild(criarInput)
             })
 
             criarInput.click()
         })
     })
-
-    function blobToBase64(blob) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.onloadend = () => resolve(reader.result)
-            reader.onerror = reject
-            reader.readAsDataURL(blob)
-        })
-    }
 
     function criarSpan() {
         const divFundoSpan = document.createElement('span')

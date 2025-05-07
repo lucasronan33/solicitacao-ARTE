@@ -44,7 +44,9 @@
                         width: 100%;
                         height: 100%;
                         margin: 0;
-                        background-size: cover;
+                        background-size: 100%;
+                        background-position: center;
+                        background-repeat: no-repeat;
                         background-image: url(../../img/erro-icon.png);
                     }
                 

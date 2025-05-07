@@ -26,7 +26,8 @@ app.use(express.json({ limit: '10mb' }))
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: {
-        fileSize: 10 * 1024 * 1024 // limite de 10MB por arquivo
+        fileSize: 10 * 1024 * 1024, // limite de 10MB por arquivo
+        fieldSize: 10*1024*1024
     }
 });
 
@@ -304,7 +305,7 @@ app.get('/useraccountSettings', verificarAutenticacao, async (req, res) => {
 
 app.get('/getUserData', verificarAutenticacao, async (req, res) => {
     try {
-        const response = await consultaDB('nome, email, cargo, sexo, wppcomercial', `email = '${req.session.usuario.email}'`);
+        const response = await consultaDB('nome, email, cargo, sexo, wppcomercial, profileimage', `email = '${req.session.usuario.email}'`);
         // log('response: ', response)
         if (!response || response.length === 0) {
             return res.status(404).json({ error: 'Usuário não encontrado' });
@@ -326,12 +327,13 @@ app.get('/getUserData', verificarAutenticacao, async (req, res) => {
 });
 
 app.get('/accountSettings', verificarAutenticacao, (req, res) => {
-    res.render('accountSettings', { savedSettings: null, erro: null })
+    res.render('accountSettings', { savedSettings: null, erro: null, profileImage:null })
 })
 app.post('/accountSettings', verificarAutenticacao, upload.single('profileImage'), async (req, res) => {
     try {
         //tratamento da foto de perfil do usuario
         let imgUrl = null
+        log('req.file: ', req.file)
         if (req.file) {
             const buffer = req.file.buffer
             imgUrl = await new Promise((resolve, reject) => {
@@ -341,15 +343,16 @@ app.post('/accountSettings', verificarAutenticacao, upload.single('profileImage'
                     if (error) return reject(error)
                     resolve(result.secure_url)
                 })
-                streamifier.createReadStream(buffer).pipe(stream)
+                console.log(streamifier.createReadStream(buffer).pipe(stream))
             })
             console.log('Imagem enviada: ', imgUrl)
         }
+        log('imgUrl: ', imgUrl)
 
         //tratamento do formulario com dados do usuario
         const tableName = 'usuario';
         const columnValues = { ...req.body };
-        delete columnValues.profileImage
+        columnValues.profileImage=imgUrl
         const condition = `id = ${req.session.userID}`;
 
         log('req.body: ', columnValues)
@@ -359,7 +362,7 @@ app.post('/accountSettings', verificarAutenticacao, upload.single('profileImage'
         if (Object.values(valoresFiltrados).length > 0) {
             const setClause = Object.keys(columnValues)
                 .filter(key => columnValues[key].trim() !== '')
-                .map((key, index) => `${key} = $${index + 1}`)
+                .map((key, index) => `${key.toLowerCase()} = $${index + 1}`)
                 .join(', ');
 
             const values = Object.keys(columnValues)
@@ -385,7 +388,7 @@ app.post('/accountSettings', verificarAutenticacao, upload.single('profileImage'
                 console.log('Linha atualizada, redirecionando \n /accountSettings');
                 console.log('Row updated:', resposta);
 
-                res.render('accountSettings', { savedSettings: 'Configurações salvas com sucesso!', erro: null });
+                res.render('accountSettings', { savedSettings: 'Configurações salvas com sucesso!', erro: null, profileImage:imgUrl });
             } catch (erro) {
                 console.error('Error updating row:', erro);
                 if (erro.detail.includes('already exists')) {
