@@ -77,6 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 divFundoSpan.remove()
             }
         })
+
+        fetch('/getUserData').then(response => response.json()).then(data => {
+            data.profileimage&&(imageProfile.style.backgroundImage=`url(${data.profileimage})`)
+        })
     }
 
 
